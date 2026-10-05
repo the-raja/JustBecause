@@ -17,7 +17,7 @@ export default function Footer() {
 
         {/* Subtle Brand Signature */}
         <p className="mt-4 text-xs font-semibold text-rose-500/80">
-          {BRAND.signature}
+          {BRAND.tagline}
         </p>
       </div>
     </footer>

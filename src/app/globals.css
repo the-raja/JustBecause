@@ -63,12 +63,36 @@
   }
 }
 
-@keyframes subtleShimmer {
-  0% {
-    background-position: -200% 0;
+@keyframes orbFloat1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
   }
-  100% {
-    background-position: 200% 0;
+  33% {
+    transform: translate(25px, -30px) scale(1.08);
+  }
+  66% {
+    transform: translate(-20px, 15px) scale(0.96);
+  }
+}
+
+@keyframes orbFloat2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-30px, 20px) scale(1.05);
+  }
+  66% {
+    transform: translate(25px, -25px) scale(0.92);
+  }
+}
+
+@keyframes orbFloat3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(15px, 25px) scale(1.06);
   }
 }
 
@@ -82,6 +106,18 @@
 
 .animate-pulse-gently {
   animation: pulseGently 3s ease-in-out infinite;
+}
+
+.animate-orb-1 {
+  animation: orbFloat1 16s ease-in-out infinite;
+}
+
+.animate-orb-2 {
+  animation: orbFloat2 20s ease-in-out infinite;
+}
+
+.animate-orb-3 {
+  animation: orbFloat3 14s ease-in-out infinite;
 }
 
 /* Respect reduced motion preferences */

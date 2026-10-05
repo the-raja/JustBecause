@@ -8,41 +8,58 @@ import { DoodleHeart, DoodleSparkle, DoodleStar, DoodleBow } from "./Doodles";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32">
-      {/* Section 16 A & D: Layered background with soft animated gradient blurs */}
+    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFFDFC]">
+      {/* 
+        Section 16: Romantic Ambient Gradient Background
+        - Clearly visible blush-pink & warm-cream gradient base
+        - Large soft ambient pink glow centered directly behind the headline
+        - Slowly drifting gradient orbs creating atmospheric depth
+      */}
+
+      {/* Central Large Ambient Glow behind Headline */}
       <div
-        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[850px] h-[480px] bg-gradient-to-b from-rose-100/70 via-pink-100/40 to-transparent blur-3xl rounded-full"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute top-1/4 -right-28 w-96 h-96 bg-rose-100/40 rounded-full blur-3xl animate-float-slow"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute top-1/3 -left-28 w-80 h-80 bg-pink-100/50 rounded-full blur-3xl animate-float-reverse"
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[850px] max-w-[100vw] h-[520px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/60 via-pink-200/40 to-transparent blur-3xl rounded-full"
         aria-hidden="true"
       />
 
-      {/* Section 16 B: Floating Hearts and Sparkles background layer */}
+      {/* Slowly moving gradient orb 1: Top-Left */}
+      <div
+        className="pointer-events-none absolute -top-16 left-[8%] w-[480px] h-[480px] bg-gradient-to-tr from-pink-400/35 via-rose-300/40 to-transparent rounded-full blur-3xl animate-orb-1"
+        aria-hidden="true"
+      />
+
+      {/* Slowly moving gradient orb 2: Right side (blush rose & warm champagne) */}
+      <div
+        className="pointer-events-none absolute top-1/6 -right-16 w-[560px] h-[560px] bg-gradient-to-br from-rose-300/40 via-pink-200/35 to-amber-200/40 rounded-full blur-3xl animate-orb-2"
+        aria-hidden="true"
+      />
+
+      {/* Slowly moving gradient orb 3: Bottom-Left */}
+      <div
+        className="pointer-events-none absolute bottom-8 -left-20 w-[480px] h-[480px] bg-gradient-to-tr from-rose-300/35 via-pink-200/35 to-transparent rounded-full blur-3xl animate-orb-3"
+        aria-hidden="true"
+      />
+
+      {/* Floating Hearts and Sparkles background layer */}
       <FloatingHearts count={10} />
 
-      {/* Section 16 C: Cute Doodle Decorations placed subtly */}
-      <div className="pointer-events-none absolute top-12 left-8 hidden md:block text-rose-300 opacity-60 animate-float-slow">
+      {/* Cute Doodle Decorations placed subtly */}
+      <div className="pointer-events-none absolute top-12 left-8 hidden md:block text-rose-400 opacity-70 animate-float-slow">
         <DoodleBow className="w-10 h-10 text-rose-400" />
       </div>
       <div className="pointer-events-none absolute top-20 right-10 hidden md:block text-amber-400 opacity-80 animate-pulse-gently">
         <DoodleSparkle className="w-6 h-6 text-amber-400" />
       </div>
-      <div className="pointer-events-none absolute bottom-16 left-12 hidden lg:block text-rose-300 opacity-50">
+      <div className="pointer-events-none absolute bottom-16 left-12 hidden lg:block text-rose-300 opacity-60">
         <DoodleHeart className="w-8 h-8 text-rose-400" />
       </div>
-      <div className="pointer-events-none absolute bottom-20 right-16 hidden lg:block text-pink-300 opacity-60 animate-float-reverse">
+      <div className="pointer-events-none absolute bottom-20 right-16 hidden lg:block text-pink-300 opacity-70 animate-float-reverse">
         <DoodleStar className="w-5 h-5 text-pink-400" />
       </div>
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Eyebrow / Brand Label */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50/90 border border-rose-200/80 text-rose-700 text-xs sm:text-sm font-bold tracking-wide uppercase mb-4 shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-700 text-xs sm:text-sm font-bold tracking-wide uppercase mb-4 shadow-2xs">
           <span>{BRAND.shortName}</span>
           <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 animate-pulse-gently" />
         </div>
@@ -56,7 +73,7 @@ export default function Hero() {
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-neutral-900 leading-[1.12]">
           Don&apos;t just send a &ldquo;Happy Birthday.&rdquo;
           <br className="hidden sm:inline" />
-          <span className="block mt-2 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 bg-clip-text text-transparent">
+          <span className="block mt-2 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 bg-clip-text text-transparent drop-shadow-xs">
             Send them a whole experience.
           </span>
         </h1>
@@ -66,7 +83,7 @@ export default function Hero() {
           Discover interactive surprise websites for the people who make your life special.
         </p>
 
-        {/* Section 16 E: Optional Interactive Love Letter */}
+        {/* Optional Interactive Love Letter */}
         <div className="mt-2">
           <InteractiveLoveLetter />
         </div>
@@ -96,10 +113,10 @@ export default function Hero() {
           <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 inline-block" />
         </p>
 
-        {/* Section 16 F: Floating Template Preview Cards flanking the Hero (desktop) */}
+        {/* Floating Template Preview Cards flanking the Hero (desktop) */}
         <div className="relative mt-12 max-w-4xl mx-auto">
           {/* Main Hero Showcase Card */}
-          <div className="relative rounded-3xl p-3 sm:p-4 bg-white/80 backdrop-blur-xs border border-rose-200/80 shadow-xl shadow-rose-900/5 overflow-hidden">
+          <div className="relative rounded-3xl p-3 sm:p-4 bg-white/85 backdrop-blur-xs border border-rose-200/90 shadow-xl shadow-rose-900/5 overflow-hidden">
             <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50/50 to-amber-50/40 flex items-center justify-center">
               <Image
                 src="/templates/universe.webp"
