@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Dancing_Script, Great_Vibes, Sacramento, Allura } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -8,6 +8,34 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-dancing",
+  weight: ["400", "500", "600", "700"],
+});
+
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-great-vibes",
+  weight: "400",
+});
+
+const sacramento = Sacramento({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sacramento",
+  weight: "400",
+});
+
+const allura = Allura({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-allura",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -71,7 +99,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} scroll-smooth`}>
+    <html lang="en" className={`${plusJakarta.variable} ${dancingScript.variable} ${greatVibes.variable} ${sacramento.variable} ${allura.variable} scroll-smooth`}>
       <body className="min-h-screen flex flex-col font-sans bg-[#FFF6F8] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased">
         <Navbar />
         <div className="flex-1">{children}</div>

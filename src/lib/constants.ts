@@ -1,7 +1,7 @@
 export const BRAND = {
   name: "JUST BECAUSE ❤️",
   shortName: "JUST BECAUSE",
-  tagline: "you love him/her. ❤️",
+  tagline: "you love him/her",
   email: "admin.justbecause@gmail.com",
   instagramUrl: "https://www.instagram.com/bczulove/",
   instagramHandle: "@bczulove",

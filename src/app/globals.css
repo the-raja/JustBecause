@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-dancing: var(--font-dancing), cursive;
+  --font-great-vibes: var(--font-great-vibes), cursive;
+  --font-sacramento: var(--font-sacramento), cursive;
+  --font-allura: var(--font-allura), cursive;
+}
+
+.font-dancing {
+  font-family: var(--font-dancing), cursive;
+}
+
+.font-great-vibes {
+  font-family: var(--font-great-vibes), cursive;
+}
+
+.font-sacramento {
+  font-family: var(--font-sacramento), cursive;
+}
+
+.font-allura {
+  font-family: var(--font-allura), cursive;
+}
+
 @layer base {
   :root {
     --background: #fff6f8;
