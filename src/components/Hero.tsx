@@ -74,7 +74,7 @@ export default function Hero() {
           Don&apos;t just send a &ldquo;Happy Birthday.&rdquo;
           <br className="hidden sm:inline" />
           <span className="block mt-2 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 bg-clip-text text-transparent drop-shadow-xs">
-            Send them a whole experience.
+            Send a Whole Feeling
           </span>
         </h1>
 
@@ -119,7 +119,7 @@ export default function Hero() {
           <div className="relative rounded-3xl p-3 sm:p-4 bg-white/85 backdrop-blur-xs border border-rose-200/90 shadow-xl shadow-rose-900/5 overflow-hidden">
             <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50/50 to-amber-50/40 flex items-center justify-center">
               <Image
-                src="/templates/universe.webp"
+                src="/templates/love-memory-photo.webp"
                 alt="Interactive Surprise Website Demo Showcase"
                 fill
                 sizes="(max-width: 768px) 100vw, 800px"
