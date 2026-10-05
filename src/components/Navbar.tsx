@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Heart } from "lucide-react";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import { BRAND } from "@/lib/constants";
@@ -10,6 +11,7 @@ import { BRAND } from "@/lib/constants";
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,22 +22,30 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: "Templates", href: "#templates" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "FAQ", href: "#faq" },
+    { label: "Home", href: "/" },
+    { label: "Templates", href: "/templates" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "How It Works", href: "/#how-it-works" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Custom ✨", href: "/custom" },
   ];
 
   const handleLinkClick = () => {
     setMobileMenuOpen(false);
   };
 
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    if (href.startsWith("/#")) return false;
+    return pathname === href || pathname?.startsWith(href + "/");
+  };
+
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#FFFDFC]/90 backdrop-blur-md shadow-xs border-b border-rose-100/80"
-          : "bg-[#FFFDFC]/75 backdrop-blur-sm border-b border-transparent"
+          ? "bg-[#FFFDFC]/95 backdrop-blur-md shadow-xs border-b border-rose-100/80"
+          : "bg-[#FFFDFC]/80 backdrop-blur-sm border-b border-rose-100/40"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,7 +66,7 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-neutral-900 flex items-center gap-1.5">
+              <span className="font-extrabold text-base sm:text-lg tracking-tight text-neutral-900 flex items-center gap-1.5">
                 JUST BECAUSE
                 <Heart className="w-4 h-4 fill-rose-500 text-rose-500 inline-block animate-pulse-gently" />
               </span>
@@ -67,16 +77,23 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm font-semibold text-neutral-700 hover:text-rose-600 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-rose-500 hover:after:w-full after:transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm"
-              >
-                {link.label}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8" aria-label="Main Navigation">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`text-sm font-semibold transition-colors py-1 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm ${
+                    active
+                      ? "text-rose-600 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-rose-600"
+                      : "text-neutral-700 hover:text-rose-600 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-rose-500 hover:after:w-full after:transition-all"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right Action: DM TO ORDER */}
@@ -85,7 +102,7 @@ export default function Navbar() {
               href={BRAND.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold tracking-wide shadow-sm hover:shadow-md hover:shadow-rose-500/20 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold tracking-wide shadow-xs hover:shadow-md hover:shadow-rose-500/20 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
             >
               <InstagramIcon className="w-4 h-4" />
               <span>DM TO ORDER</span>
@@ -120,16 +137,23 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#FFFDFC] border-b border-rose-100 px-5 pt-3 pb-6 space-y-3 shadow-lg animate-in slide-in-from-top duration-200">
           <nav className="flex flex-col space-y-1" aria-label="Mobile Navigation">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={handleLinkClick}
-                className="px-3 py-2.5 rounded-xl text-base font-medium text-neutral-800 hover:text-rose-600 hover:bg-rose-50/80 transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={handleLinkClick}
+                  className={`px-3 py-2.5 rounded-xl text-base font-medium transition-colors ${
+                    active
+                      ? "text-rose-600 bg-rose-50 font-bold"
+                      : "text-neutral-800 hover:text-rose-600 hover:bg-rose-50/70"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
           <div className="pt-2">
             <a

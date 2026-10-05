@@ -10,6 +10,7 @@ export type Template = {
   image: string;
   liveUrl: string;
   searchKeywords: string[];
+  featured?: boolean;
 };
 
 export const templates: Template[] = [
@@ -34,6 +35,7 @@ export const templates: Template[] = [
       "boyfriend",
       "anniversary",
     ],
+    featured: true,
   },
   {
     id: "puzzle",
@@ -55,6 +57,7 @@ export const templates: Template[] = [
       "girlfriend",
       "boyfriend",
     ],
+    featured: true,
   },
   {
     id: "50-reasons",
@@ -76,6 +79,7 @@ export const templates: Template[] = [
       "girlfriend",
       "boyfriend",
     ],
+    featured: false,
   },
   {
     id: "love-memory-photo",
@@ -97,6 +101,7 @@ export const templates: Template[] = [
       "girlfriend",
       "boyfriend",
     ],
+    featured: false,
   },
   {
     id: "heartbeat",
@@ -118,6 +123,7 @@ export const templates: Template[] = [
       "boyfriend",
       "valentine",
     ],
+    featured: false,
   },
   {
     id: "birthday",
@@ -139,6 +145,7 @@ export const templates: Template[] = [
       "best friend",
       "bday",
     ],
+    featured: true,
   },
   {
     id: "love-game",
@@ -160,6 +167,7 @@ export const templates: Template[] = [
       "girlfriend",
       "boyfriend",
     ],
+    featured: false,
   },
 ];
 
@@ -172,6 +180,13 @@ export function getCategories(templateList: Template[] = templates): string[] {
     new Set(templateList.map((t) => t.category.trim()))
   ).filter(Boolean);
   return ["All", ...uniqueCategories];
+}
+
+/**
+ * Extract only featured templates (initially 3 for the homepage).
+ */
+export function getFeaturedTemplates(templateList: Template[] = templates): Template[] {
+  return templateList.filter((t) => t.featured);
 }
 
 /**

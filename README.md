@@ -81,20 +81,30 @@ just-because/
 │   └── logo.png            # Brand mark & favicon
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx      # Root layout with SEO & OpenGraph tags
-│   │   ├── page.tsx        # Homepage assembling all 8 storefront sections
+│   │   ├── layout.tsx      # Global Root layout with Navbar, Footer & SEO
+│   │   ├── page.tsx        # Homepage (Hero, Explainer, 3 Featured Templates, Custom Teaser, Pricing Facts)
+│   │   ├── templates/      # /templates (Full searchable & filterable gallery)
+│   │   ├── pricing/        # /pricing (Grade pricing, Hosting extensions, Policy)
+│   │   ├── faq/            # /faq (Complete 11-question accessible accordion)
+│   │   ├── custom/         # /custom (Bespoke website design service & checklist)
 │   │   └── globals.css     # Theme tokens, fonts, and romantic CSS animations
 │   ├── components/
-│   │   ├── Navbar.tsx      # Sticky brand navbar with mobile drawer
-│   │   ├── Hero.tsx        # Brand hero with CTA buttons & highlights
+│   │   ├── Navbar.tsx      # Sticky brand navbar with active routes & mobile drawer
+│   │   ├── Hero.tsx        # Brand hero with floating cards & romantic background
+│   │   ├── FloatingHearts.tsx # Subtle drifting hearts & sparkles
+│   │   ├── InteractiveLoveLetter.tsx # Interactive unfolding love note
+│   │   ├── Doodles.tsx     # Romantic hand-drawn SVG doodles (bow, star, sparkles)
+│   │   ├── ProductExplainer.tsx # 3 concise product benefit cards
+│   │   ├── FeaturedTemplates.tsx # 3 featured templates with "View All" CTA
 │   │   ├── TemplateGallery.tsx # Data-driven searchable & filterable gallery
 │   │   ├── TemplateCard.tsx    # Card with live demo & Instagram order CTAs + fallback
 │   │   ├── TemplateSearch.tsx  # Instant case-insensitive search bar
 │   │   ├── CategoryFilters.tsx # Dynamic category chip filters
-│   │   ├── CustomWebsite.tsx   # Bespoke website section (Starting at ₹199)
-│   │   ├── HostingPlans.tsx    # Hosting extension plans (Weekly, Monthly, Yearly)
+│   │   ├── CustomTeaser.tsx    # Homepage custom website teaser
+│   │   ├── QuickPricingHighlights.tsx # Transparent pricing overview
 │   │   ├── HowItWorks.tsx      # 3-step process & delivery timeline policies
-│   │   ├── FAQ.tsx             # Accessible accordion with all business answers
+│   │   ├── FAQ.tsx             # Accessible accordion with all 11 business answers
+│   │   ├── FinalCTA.tsx        # Emotional closing CTA block
 │   │   ├── Footer.tsx          # Minimal required footer
 │   │   └── icons/              # Custom brand SVG icons
 │   ├── data/
@@ -103,6 +113,7 @@ just-because/
 │       └── constants.ts    # Brand constants, pricing tables & policies
 ├── scripts/
 │   └── generate-previews.cjs # Utility to generate high-quality placeholder WebPs
+├── project-refactor.md     # Multi-page refactoring specification
 ├── project.md              # Brand & project master specification
 └── package.json
 ```

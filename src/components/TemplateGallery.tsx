@@ -7,7 +7,17 @@ import TemplateCard from "./TemplateCard";
 import TemplateSearch from "./TemplateSearch";
 import CategoryFilters from "./CategoryFilters";
 
-export default function TemplateGallery() {
+interface TemplateGalleryProps {
+  title?: string;
+  description?: string;
+  badge?: string;
+}
+
+export default function TemplateGallery({
+  title = "Find Your Perfect Surprise ❤️",
+  description = "Browse interactive digital gifts, try the live demos, and choose a little experience for someone special.",
+  badge = "Interactive Template Gallery",
+}: TemplateGalleryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -27,19 +37,19 @@ export default function TemplateGallery() {
   const isFiltered = searchQuery.trim().length > 0 || selectedCategory !== "All";
 
   return (
-    <section id="templates" className="py-16 sm:py-24 bg-white/70 border-t border-b border-rose-100/60 relative">
+    <section id="templates" className="py-14 sm:py-20 bg-[#FFFDFC] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold uppercase tracking-wider mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive Template Gallery</span>
+            <span>{badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
-            Pick a Surprise Experience
-          </h2>
-          <p className="mt-3 text-base sm:text-lg text-neutral-600">
-            Browse our hand-crafted interactive websites. Click &ldquo;VIEW LIVE&rdquo; to test them in real-time.
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
+            {title}
+          </h1>
+          <p className="mt-3 text-base sm:text-lg text-neutral-600 leading-relaxed">
+            {description}
           </p>
         </div>
 
@@ -76,7 +86,7 @@ export default function TemplateGallery() {
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="inline-flex items-center gap-1 text-rose-600 hover:text-rose-700 font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm"
+                className="inline-flex items-center gap-1 text-rose-600 hover:text-rose-700 font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm cursor-pointer"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Reset filters</span>
@@ -108,7 +118,7 @@ export default function TemplateGallery() {
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold shadow-xs transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold shadow-xs transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 cursor-pointer"
               >
                 <RefreshCw className="w-4 h-4" />
                 <span>CLEAR FILTERS</span>

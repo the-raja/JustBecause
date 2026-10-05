@@ -17,46 +17,56 @@ export default function FAQ() {
     {
       question: "How does ordering work?",
       answer:
-        "Choose a template, preview it, and message us on Instagram. We'll confirm the details, price, payment, and delivery timeline.",
+        "Browse our collection, preview the live demo, and message us on Instagram. We'll personally confirm your customization details, template price, preferred hosting duration, payment method, and delivery timeline.",
     },
     {
       question: "What is included in the template price?",
       answer:
-        "The selected template website and 24 hours of live access are included in its displayed price. Any additional personalization must be confirmed for that template.",
+        "The selected template website and 24 hours of live access are included in its displayed base price. Any requested personalization (such as names, messages, or photo replacements) will be confirmed with you for that specific template.",
     },
     {
       question: "Can I keep my website live for longer?",
       answer:
-        "Yes. Choose from the Weekly (₹99 for 7 days), Monthly (₹199 for 30 days), or Yearly (₹499 for 365 days) extension options, and confirm the hosting duration with us before payment.",
+        "Yes! You can choose from our hosting extension plans: Weekly (₹99 for 7 days total), Monthly (₹199 for 30 days total), or Yearly (₹499 for 365 days total). The selected duration represents the total live hosting time and replaces the default 24-hour window.",
     },
     {
-      question: "Can I customize the template?",
+      question: "Can I customize an existing template?",
       answer:
-        "Basic personalization may be available depending on the template. Major design changes or additional features may cost extra.",
+        "Yes, basic personalization such as names, dates, custom love notes, and photo additions are usually available depending on the template structure. Substantial design changes or extra interactive features can be quoted individually.",
     },
     {
       question: "Can you create a completely custom website?",
       answer:
-        "Yes. Custom websites start at ₹199, with the final price based on your specific requirements and features.",
+        "Absolutely. Custom websites start at ₹199. We can build entirely bespoke animations, couple quizzes, relationship milestones, polaroids, and special design themes. The final quote is confirmed manually based on your exact ideas.",
     },
     {
       question: "How early should I order?",
       answer:
-        "We recommend ordering at least 7 days before your special date. Contact us first for urgent requests.",
+        "We recommend ordering at least 7 days before your special occasion. If your event is in 3–6 days, message us to confirm slot availability. For urgent requests within 48 hours or same-day delivery, availability is strictly subject to manual studio confirmation.",
     },
     {
-      question: "How will I receive the website?",
+      question: "How will I receive my website?",
       answer:
-        "After your order is completed, we'll send your personal website link and QR code where applicable.",
+        "Once your website is personalized and ready, we deliver a private, shareable web link directly via Instagram DM or email, along with high-resolution sharing instructions.",
+    },
+    {
+      question: "Will I receive a QR code?",
+      answer:
+        "Yes! Alongside your personal website link, we provide a clean, scannable QR code graphic where applicable. You can print it on greeting cards, gift boxes, or letters for a magical physical-to-digital surprise.",
     },
     {
       question: "What happens when the hosting period ends?",
       answer:
-        "The website may go offline when the agreed hosting period ends unless an extension has been arranged.",
+        "The website will naturally go offline once your agreed hosting window (24 hours, Weekly, Monthly, or Yearly) concludes, unless you request an extension before the expiration date.",
+    },
+    {
+      question: "How do payments work?",
+      answer:
+        "Payments are handled manually and securely after we agree on all details through Instagram DM. We provide standard digital payment methods (such as UPI) before beginning work on your website.",
     },
     {
       question: "How do I contact you?",
-      answer: `DM us on Instagram at ${BRAND.instagramHandle} or email ${BRAND.email}.`,
+      answer: `You can reach out anytime by sending a direct message on Instagram to ${BRAND.instagramHandle} or by emailing us at ${BRAND.email}.`,
     },
   ];
 
@@ -65,7 +75,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-24 bg-white relative">
+    <section className="py-14 sm:py-20 bg-white relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-12 sm:mb-16">
@@ -73,11 +83,11 @@ export default function FAQ() {
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Got Questions?</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
             Frequently Asked Questions
-          </h2>
+          </h1>
           <p className="mt-3 text-base sm:text-lg text-neutral-600">
-            Everything you need to know about our surprise websites and ordering process.
+            Everything you need to know about our surprise websites, hosting durations, and ordering process.
           </p>
         </div>
 
@@ -98,7 +108,7 @@ export default function FAQ() {
                   type="button"
                   onClick={() => toggleFAQ(index)}
                   aria-expanded={isOpen}
-                  className="w-full text-left px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 font-bold text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                  className="w-full text-left px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 font-bold text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 cursor-pointer"
                 >
                   <span className="text-base sm:text-lg">{faq.question}</span>
                   <ChevronDown
@@ -119,19 +129,19 @@ export default function FAQ() {
         </div>
 
         {/* Quick Contact Box */}
-        <div className="mt-12 p-6 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-neutral-50/90 border border-neutral-200/80 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
-            <h3 className="font-bold text-neutral-900 text-sm sm:text-base">
+            <h2 className="font-bold text-neutral-900 text-lg sm:text-xl">
               Still have a question?
-            </h3>
-            <p className="text-xs sm:text-sm text-neutral-500 mt-0.5">
-              We&apos;re happy to help with your custom surprise idea anytime.
+            </h2>
+            <p className="text-xs sm:text-sm text-neutral-600 mt-1 max-w-md">
+              We&apos;re happy to help with your custom surprise idea anytime. Reach out and let&apos;s create something magical.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <a
               href={`mailto:${BRAND.email}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-neutral-200 text-neutral-700 hover:text-neutral-900 hover:border-neutral-300 text-xs sm:text-sm font-semibold transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-neutral-200 text-neutral-700 hover:text-neutral-900 hover:border-neutral-300 text-xs sm:text-sm font-semibold transition-all shadow-2xs"
             >
               <Mail className="w-4 h-4 text-rose-500" />
               <span>Email Us</span>
@@ -140,7 +150,7 @@ export default function FAQ() {
               href={BRAND.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold shadow-2xs transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold shadow-2xs transition-all"
             >
               <InstagramIcon className="w-4 h-4" />
               <span>DM on Instagram</span>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -10,7 +12,10 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: "JUST BECAUSE ❤️ — Digital Surprises Made with Love",
+  title: {
+    default: "JUST BECAUSE ❤️ — Digital Surprises Made with Love",
+    template: "%s | JUST BECAUSE ❤️",
+  },
   description:
     "Discover personalized surprise websites for birthdays, love, anniversaries, friends, and family. Find a little way to make someone's day special. Little surprises. Big feelings. Starting at ₹49. ❤️",
   keywords: [
@@ -63,7 +68,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plusJakarta.variable} scroll-smooth`}>
       <body className="min-h-screen flex flex-col font-sans bg-[#FFFDFC] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased">
-        {children}
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   );
