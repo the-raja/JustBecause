@@ -6,6 +6,8 @@ import { templates, getCategories, filterTemplates } from "@/data/templates";
 import TemplateCard from "./TemplateCard";
 import TemplateSearch from "./TemplateSearch";
 import CategoryFilters from "./CategoryFilters";
+import FloatingHearts from "./FloatingHearts";
+import { DoodleHeart, DoodleSparkle } from "./Doodles";
 
 interface TemplateGalleryProps {
   title?: string;
@@ -37,12 +39,39 @@ export default function TemplateGallery({
   const isFiltered = searchQuery.trim().length > 0 || selectedCategory !== "All";
 
   return (
-    <section id="templates" className="py-14 sm:py-20 bg-[#FFFDFC] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="templates" className="py-14 sm:py-20 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFF6F8] min-h-screen relative overflow-hidden">
+      {/* Central Large Ambient Glow */}
+      <div
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[850px] max-w-[100vw] h-[520px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/50 via-pink-200/35 to-transparent blur-3xl rounded-full"
+        aria-hidden="true"
+      />
+
+      {/* Slowly moving gradient orbs */}
+      <div
+        className="pointer-events-none absolute -top-16 left-[5%] w-[480px] h-[480px] bg-gradient-to-tr from-pink-400/30 via-rose-300/35 to-transparent rounded-full blur-3xl animate-orb-1"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-1/4 -right-16 w-[520px] h-[520px] bg-gradient-to-br from-rose-300/35 via-pink-200/30 to-amber-200/35 rounded-full blur-3xl animate-orb-2"
+        aria-hidden="true"
+      />
+
+      {/* Floating Hearts */}
+      <FloatingHearts count={8} />
+
+      {/* Cute Doodles */}
+      <div className="pointer-events-none absolute top-16 left-8 text-rose-300 opacity-60 hidden md:block animate-float-slow">
+        <DoodleHeart className="w-10 h-10" />
+      </div>
+      <div className="pointer-events-none absolute top-28 right-10 text-amber-400 opacity-70 hidden md:block animate-pulse-gently">
+        <DoodleSparkle className="w-6 h-6" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
             <span>{badge}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
@@ -104,9 +133,9 @@ export default function TemplateGallery({
           </div>
         ) : (
           /* Empty State */
-          <div className="text-center py-16 sm:py-20 px-4 max-w-md mx-auto bg-rose-50/50 rounded-3xl border border-dashed border-rose-200">
-            <div className="w-14 h-14 mx-auto rounded-full bg-rose-100 flex items-center justify-center text-rose-500 mb-4">
-              <Heart className="w-7 h-7 fill-rose-500" />
+          <div className="text-center py-16 sm:py-20 px-4 max-w-md mx-auto bg-white/85 backdrop-blur-xs rounded-3xl border border-dashed border-rose-300 shadow-sm">
+            <div className="w-14 h-14 mx-auto rounded-full bg-rose-100 flex items-center justify-center text-rose-500 mb-4 border border-rose-200/80 shadow-2xs">
+              <Heart className="w-7 h-7 fill-rose-500 animate-pulse-gently" />
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-neutral-800">
               No surprises found just yet. 💌

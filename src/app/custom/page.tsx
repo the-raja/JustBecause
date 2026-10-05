@@ -3,6 +3,7 @@ import { Sparkles, Palette, Camera, HeartHandshake, Code2, Music, Clock, FileChe
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import { BRAND } from "@/lib/constants";
 import { DoodleHeart, DoodleSparkle, DoodleStar } from "@/components/Doodles";
+import FloatingHearts from "@/components/FloatingHearts";
 
 export const metadata: Metadata = {
   title: "Bespoke Custom Websites — Made Just for Your Special Person",
@@ -53,22 +54,41 @@ export default function CustomPage() {
   ];
 
   return (
-    <main className="py-14 sm:py-20 bg-[#FFFDFC] relative overflow-hidden">
+    <main className="py-14 sm:py-20 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFF6F8] min-h-screen relative overflow-hidden">
+      {/* Central Large Ambient Glow */}
+      <div
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[850px] max-w-[100vw] h-[520px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/50 via-pink-200/35 to-transparent blur-3xl rounded-full"
+        aria-hidden="true"
+      />
+
+      {/* Slowly moving gradient orbs */}
+      <div
+        className="pointer-events-none absolute -top-16 left-[5%] w-[480px] h-[480px] bg-gradient-to-tr from-pink-400/30 via-rose-300/35 to-transparent rounded-full blur-3xl animate-orb-1"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-1/4 -right-16 w-[520px] h-[520px] bg-gradient-to-br from-rose-300/35 via-pink-200/30 to-amber-200/35 rounded-full blur-3xl animate-orb-2"
+        aria-hidden="true"
+      />
+
+      {/* Floating Hearts */}
+      <FloatingHearts count={8} />
+
       {/* Decorative background doodles */}
-      <div className="pointer-events-none absolute top-12 left-10 text-rose-300 opacity-40 hidden md:block">
+      <div className="pointer-events-none absolute top-12 left-10 text-rose-300 opacity-60 hidden md:block animate-float-slow">
         <DoodleHeart className="w-12 h-12" />
       </div>
-      <div className="pointer-events-none absolute top-24 right-12 text-amber-400 opacity-50 hidden md:block">
+      <div className="pointer-events-none absolute top-24 right-12 text-amber-400 opacity-70 hidden md:block animate-pulse-gently">
         <DoodleSparkle className="w-7 h-7" />
       </div>
-      <div className="pointer-events-none absolute bottom-32 left-12 text-pink-300 opacity-50 hidden lg:block">
+      <div className="pointer-events-none absolute bottom-32 left-12 text-pink-300 opacity-60 hidden lg:block animate-float-reverse">
         <DoodleStar className="w-6 h-6" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100 text-rose-800 text-xs font-bold tracking-wide uppercase mb-4 shadow-2xs">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-800 text-xs font-bold tracking-wide uppercase mb-4 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
             <span>Bespoke Interactive Gifting</span>
           </div>
@@ -82,7 +102,7 @@ export default function CustomPage() {
           </p>
 
           {/* Pricing Highlight */}
-          <div className="mt-8 inline-flex flex-col sm:flex-row sm:items-center gap-3 p-4 px-6 rounded-2xl bg-white border border-rose-200 shadow-sm">
+          <div className="mt-8 inline-flex flex-col sm:flex-row sm:items-center gap-3 p-4 px-6 rounded-2xl bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-xs">
             <div className="flex items-baseline gap-2">
               <span className="text-xs uppercase font-bold text-neutral-500">Custom websites starting at</span>
               <span className="text-3xl font-black text-rose-600">₹{BRAND.customStartingPrice}</span>
@@ -111,7 +131,7 @@ export default function CustomPage() {
         <section className="mb-20">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
-              Endless Ways to Personalize
+              Endless Ways to Personalize ❤️
             </h2>
             <p className="mt-2 text-sm sm:text-base text-neutral-600">
               Here are some ideas of what we can build into your custom website:
@@ -124,10 +144,10 @@ export default function CustomPage() {
               return (
                 <div
                   key={opt.title}
-                  className="p-6 rounded-3xl bg-white border border-rose-100 shadow-xs hover:shadow-md hover:border-rose-200 transition-all flex flex-col justify-between"
+                  className="p-6 rounded-3xl bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-xs hover:shadow-lg hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
-                    <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600 mb-4 border border-rose-100">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-100/70 flex items-center justify-center text-rose-600 mb-4 border border-rose-200/70 shadow-2xs">
                       <Icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-lg font-bold text-neutral-900 mb-2">{opt.title}</h3>
@@ -144,7 +164,7 @@ export default function CustomPage() {
         </section>
 
         {/* Preparation Checklist */}
-        <section className="mb-16 bg-white rounded-3xl sm:rounded-[2.5rem] border border-rose-200/80 p-8 sm:p-12 shadow-sm">
+        <section className="mb-16 bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-[2.5rem] border border-rose-200/80 p-8 sm:p-12 shadow-xl shadow-rose-900/5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">
@@ -168,7 +188,7 @@ export default function CustomPage() {
               </ul>
             </div>
 
-            <div className="p-6 sm:p-8 rounded-2xl bg-rose-50/50 border border-rose-100 text-center flex flex-col items-center justify-center">
+            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-rose-50/80 via-pink-50/60 to-rose-50/80 border border-rose-200/70 shadow-2xs text-center flex flex-col items-center justify-center">
               <span className="text-4xl mb-3">💌</span>
               <h3 className="text-lg font-bold text-neutral-900">
                 Ready to bring your idea to life?

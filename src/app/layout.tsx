@@ -67,7 +67,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${plusJakarta.variable} scroll-smooth`}>
-      <body className="min-h-screen flex flex-col font-sans bg-[#FFFDFC] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased">
+      <body className="min-h-screen flex flex-col font-sans bg-[#FFF6F8] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased">
         <Navbar />
         <div className="flex-1">{children}</div>
         <Footer />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Sparkles, ArrowRight, Palette, Camera, HeartHandshake, Code2 } from "lucide-react";
 import { BRAND } from "@/lib/constants";
+import { DoodleHeart, DoodleSparkle } from "./Doodles";
 
 export default function CustomTeaser() {
   const highlights = [
@@ -11,9 +12,23 @@ export default function CustomTeaser() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-gradient-to-b from-[#FFFDFC] via-rose-50/40 to-[#FFFDFC] relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl sm:rounded-[2.5rem] border border-rose-200/80 p-8 sm:p-12 lg:p-14 shadow-lg shadow-rose-900/5">
+    <section className="py-16 sm:py-20 bg-gradient-to-b from-[#FFF6F9] via-[#FFEBF2] to-[#FFF2F5] relative overflow-hidden">
+      {/* Soft ambient glow */}
+      <div
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] max-w-[100vw] h-[450px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/40 via-pink-200/25 to-transparent blur-3xl rounded-full"
+        aria-hidden="true"
+      />
+
+      {/* Decorative Doodles */}
+      <div className="pointer-events-none absolute top-8 left-10 text-rose-300 opacity-60 hidden md:block animate-float-slow">
+        <DoodleHeart className="w-10 h-10" />
+      </div>
+      <div className="pointer-events-none absolute bottom-10 right-10 text-amber-400 opacity-70 hidden md:block animate-pulse-gently">
+        <DoodleSparkle className="w-6 h-6" />
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-[2.5rem] border border-rose-200/80 p-8 sm:p-12 lg:p-14 shadow-xl shadow-rose-900/5">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-100 text-rose-800 text-xs font-bold tracking-wide uppercase mb-5">
               <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />

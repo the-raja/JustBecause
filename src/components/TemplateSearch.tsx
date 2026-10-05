@@ -28,7 +28,7 @@ export default function TemplateSearch({
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search by occasion, person, or vibe..."
           aria-label="Search templates by occasion, person, or vibe"
-          className="w-full pl-12 pr-11 py-3.5 sm:py-4 text-sm sm:text-base bg-white rounded-2xl border border-rose-200/90 text-neutral-800 placeholder-neutral-400 shadow-xs hover:border-rose-300 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 focus:outline-none transition-all"
+          className="w-full pl-12 pr-11 py-3.5 sm:py-4 text-sm sm:text-base bg-white/90 backdrop-blur-xs rounded-2xl border border-rose-200 text-neutral-800 placeholder-neutral-400 shadow-xs hover:border-rose-300 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/15 focus:outline-none transition-all"
         />
 
         {/* Clear Action Button */}

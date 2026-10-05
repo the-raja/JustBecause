@@ -1,5 +1,6 @@
 import { Heart, Search, MessageCircle, Gift, Calendar, AlertCircle, Clock } from "lucide-react";
 import { ORDER_TIMING_POLICY } from "@/lib/constants";
+import { DoodleHeart, DoodleSparkle } from "./Doodles";
 
 interface HowItWorksProps {
   showPolicy?: boolean;
@@ -31,11 +32,25 @@ export default function HowItWorks({ showPolicy = false }: HowItWorksProps) {
   ];
 
   return (
-    <section id="how-it-works" className="py-16 sm:py-24 bg-rose-50/30 border-t border-rose-100/70 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="how-it-works" className="py-16 sm:py-24 bg-gradient-to-b from-[#FFEBF1] via-[#FFF2F6] to-[#FFF6F9] border-t border-rose-200/60 relative overflow-hidden">
+      {/* Soft ambient glow */}
+      <div
+        className="pointer-events-none absolute top-12 left-1/2 -translate-x-1/2 w-[750px] max-w-[100vw] h-[400px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/35 via-pink-200/20 to-transparent blur-3xl rounded-full"
+        aria-hidden="true"
+      />
+
+      {/* Decorative Doodles */}
+      <div className="pointer-events-none absolute top-14 left-8 text-rose-300 opacity-60 hidden md:block animate-float-slow">
+        <DoodleHeart className="w-10 h-10" />
+      </div>
+      <div className="pointer-events-none absolute bottom-24 right-10 text-amber-400 opacity-70 hidden md:block animate-pulse-gently">
+        <DoodleSparkle className="w-6 h-6" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/80 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
             <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
             <span>Simple 3-Step Process</span>
           </div>
@@ -54,14 +69,14 @@ export default function HowItWorks({ showPolicy = false }: HowItWorksProps) {
             return (
               <div
                 key={step.number}
-                className="relative bg-white rounded-3xl p-6 sm:p-8 border border-rose-100/80 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+                className="relative bg-white/85 backdrop-blur-xs hover:bg-white/95 rounded-3xl p-6 sm:p-8 border border-rose-200/70 shadow-xs hover:shadow-lg hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <span className="text-3xl sm:text-4xl font-black text-rose-500 tracking-tighter">
                       {step.number}
                     </span>
-                    <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-100/70 border border-rose-200/70 flex items-center justify-center text-rose-600 shadow-2xs">
                       <Icon className="w-6 h-6" />
                     </div>
                   </div>
@@ -75,7 +90,7 @@ export default function HowItWorks({ showPolicy = false }: HowItWorksProps) {
                 </div>
 
                 {idx < 2 && (
-                  <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xs">
+                  <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xs shadow-xs border border-rose-200/60">
                     →
                   </div>
                 )}
@@ -86,7 +101,7 @@ export default function HowItWorks({ showPolicy = false }: HowItWorksProps) {
 
         {/* Emotional Closing Banner */}
         <div className="mt-12 text-center">
-          <p className="inline-flex items-center gap-2 text-lg sm:text-xl font-extrabold text-rose-600 bg-white/90 px-6 py-3 rounded-full border border-rose-200/80 shadow-2xs">
+          <p className="inline-flex items-center gap-2 text-lg sm:text-xl font-extrabold text-rose-600 bg-white/90 backdrop-blur-xs px-6 py-3 rounded-full border border-rose-200/80 shadow-2xs">
             <span>You send it. They smile.</span>
             <Heart className="w-5 h-5 fill-rose-500 animate-pulse-gently" />
           </p>
@@ -94,7 +109,7 @@ export default function HowItWorks({ showPolicy = false }: HowItWorksProps) {
 
         {/* Order and Delivery Policy Section (Shown on detailed pricing page) */}
         {showPolicy && (
-          <div className="mt-16 sm:mt-20 max-w-5xl mx-auto bg-white rounded-3xl border border-rose-200/80 p-6 sm:p-10 shadow-xs">
+          <div className="mt-16 sm:mt-20 max-w-5xl mx-auto bg-white/90 backdrop-blur-xs rounded-3xl border border-rose-200/80 p-6 sm:p-10 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
                 <Calendar className="w-5 h-5" />
@@ -114,7 +129,7 @@ export default function HowItWorks({ showPolicy = false }: HowItWorksProps) {
               {ORDER_TIMING_POLICY.windows.map((win) => (
                 <div
                   key={win.window}
-                  className="p-4 rounded-2xl bg-neutral-50/70 border border-neutral-200/70 text-left"
+                  className="p-4 rounded-2xl bg-white/90 border border-rose-200/70 text-left shadow-2xs"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600">

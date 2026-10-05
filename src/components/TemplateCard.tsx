@@ -14,7 +14,7 @@ export default function TemplateCard({ template }: TemplateCardProps) {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <article className="group flex flex-col bg-white rounded-3xl border border-rose-100/80 shadow-xs hover:shadow-xl hover:border-rose-200/80 transition-all duration-300 overflow-hidden">
+    <article className="group flex flex-col bg-white/90 backdrop-blur-xs rounded-3xl border border-rose-200/70 shadow-xs hover:shadow-xl hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
       {/* Card Visual / Image Section */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50/60 to-rose-100/30">
         {!imageError ? (
@@ -91,7 +91,7 @@ export default function TemplateCard({ template }: TemplateCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View live demo of ${template.title}`}
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 hover:border-neutral-300 text-neutral-700 hover:text-neutral-900 text-xs sm:text-sm font-semibold shadow-2xs active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-rose-200/80 bg-white hover:bg-rose-50/70 hover:border-rose-300 text-neutral-700 hover:text-rose-700 text-xs sm:text-sm font-semibold shadow-2xs active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
             >
               <span>VIEW LIVE</span>
               <ExternalLink className="w-3.5 h-3.5" />

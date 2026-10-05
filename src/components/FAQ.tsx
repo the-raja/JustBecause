@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ChevronDown, HelpCircle, Mail } from "lucide-react";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import { BRAND } from "@/lib/constants";
+import FloatingHearts from "./FloatingHearts";
+import { DoodleHeart, DoodleSparkle } from "./Doodles";
 
 interface FAQItem {
   question: string;
@@ -75,16 +77,43 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-14 sm:py-20 bg-white relative">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-14 sm:py-20 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFF6F8] min-h-screen relative overflow-hidden">
+      {/* Central Large Ambient Glow */}
+      <div
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[850px] max-w-[100vw] h-[520px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/50 via-pink-200/35 to-transparent blur-3xl rounded-full"
+        aria-hidden="true"
+      />
+
+      {/* Slowly moving gradient orbs */}
+      <div
+        className="pointer-events-none absolute -top-16 left-[5%] w-[480px] h-[480px] bg-gradient-to-tr from-pink-400/30 via-rose-300/35 to-transparent rounded-full blur-3xl animate-orb-1"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-1/4 -right-16 w-[520px] h-[520px] bg-gradient-to-br from-rose-300/35 via-pink-200/30 to-amber-200/35 rounded-full blur-3xl animate-orb-2"
+        aria-hidden="true"
+      />
+
+      {/* Floating Hearts */}
+      <FloatingHearts count={8} />
+
+      {/* Doodles */}
+      <div className="pointer-events-none absolute top-14 left-8 text-rose-300 opacity-60 hidden md:block animate-float-slow">
+        <DoodleHeart className="w-10 h-10" />
+      </div>
+      <div className="pointer-events-none absolute top-24 right-10 text-amber-400 opacity-70 hidden md:block animate-pulse-gently">
+        <DoodleSparkle className="w-6 h-6" />
+      </div>
+
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold uppercase tracking-wider mb-3">
-            <HelpCircle className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+            <HelpCircle className="w-3.5 h-3.5 text-rose-500" />
             <span>Got Questions?</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
-            Frequently Asked Questions
+            Frequently Asked Questions ❤️
           </h1>
           <p className="mt-3 text-base sm:text-lg text-neutral-600">
             Everything you need to know about our surprise websites, hosting durations, and ordering process.
@@ -100,8 +129,8 @@ export default function FAQ() {
                 key={faq.question}
                 className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
                   isOpen
-                    ? "border-rose-300 bg-rose-50/30 shadow-xs"
-                    : "border-neutral-200/80 bg-white hover:border-rose-200"
+                    ? "border-rose-300/90 bg-white/95 backdrop-blur-xs shadow-md shadow-rose-900/5"
+                    : "border-rose-200/70 bg-white/85 backdrop-blur-xs hover:bg-white hover:border-rose-300 shadow-2xs"
                 }`}
               >
                 <button
@@ -119,7 +148,7 @@ export default function FAQ() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-rose-100/60 animate-in fade-in duration-200">
+                  <div className="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-rose-100/70 animate-in fade-in duration-200">
                     <p>{faq.answer}</p>
                   </div>
                 )}
@@ -129,7 +158,7 @@ export default function FAQ() {
         </div>
 
         {/* Quick Contact Box */}
-        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-neutral-50/90 border border-neutral-200/80 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
             <h2 className="font-bold text-neutral-900 text-lg sm:text-xl">
               Still have a question?
@@ -141,7 +170,7 @@ export default function FAQ() {
           <div className="flex items-center gap-3">
             <a
               href={`mailto:${BRAND.email}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-neutral-200 text-neutral-700 hover:text-neutral-900 hover:border-neutral-300 text-xs sm:text-sm font-semibold transition-all shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-rose-200/80 hover:bg-rose-50/70 text-neutral-700 hover:text-rose-700 text-xs sm:text-sm font-semibold transition-all shadow-2xs"
             >
               <Mail className="w-4 h-4 text-rose-500" />
               <span>Email Us</span>

@@ -8,7 +8,7 @@ import { DoodleHeart, DoodleSparkle, DoodleStar, DoodleBow } from "./Doodles";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFFDFC]">
+    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFF3F6]">
       {/* 
         Section 16: Romantic Ambient Gradient Background
         - Clearly visible blush-pink & warm-cream gradient base

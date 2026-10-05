@@ -4,6 +4,7 @@ import { Heart, Clock, Check, Sparkles, Info, ArrowRight, ShieldCheck, AlertCirc
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import { BRAND, HOSTING_EXTENSION_PLANS, GRADE_PRICING, ORDER_TIMING_POLICY } from "@/lib/constants";
 import { DoodleSparkle, DoodleHeart } from "@/components/Doodles";
+import FloatingHearts from "@/components/FloatingHearts";
 
 export const metadata: Metadata = {
   title: "Pricing & Hosting Plans — Simple & Transparent",
@@ -13,24 +14,43 @@ export const metadata: Metadata = {
 
 export default function PricingPage() {
   return (
-    <main className="py-14 sm:py-20 bg-[#FFFDFC] relative overflow-hidden">
+    <main className="py-14 sm:py-20 bg-gradient-to-b from-[#FFDDE4] via-[#FFF0E8] to-[#FFF6F8] min-h-screen relative overflow-hidden">
+      {/* Central Large Ambient Glow */}
+      <div
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[850px] max-w-[100vw] h-[520px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-300/50 via-pink-200/35 to-transparent blur-3xl rounded-full"
+        aria-hidden="true"
+      />
+
+      {/* Slowly moving gradient orbs */}
+      <div
+        className="pointer-events-none absolute -top-16 left-[5%] w-[480px] h-[480px] bg-gradient-to-tr from-pink-400/30 via-rose-300/35 to-transparent rounded-full blur-3xl animate-orb-1"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-1/4 -right-16 w-[520px] h-[520px] bg-gradient-to-br from-rose-300/35 via-pink-200/30 to-amber-200/35 rounded-full blur-3xl animate-orb-2"
+        aria-hidden="true"
+      />
+
+      {/* Floating Hearts */}
+      <FloatingHearts count={8} />
+
       {/* Decorative background doodles */}
-      <div className="pointer-events-none absolute top-12 left-10 text-rose-300 opacity-40 hidden md:block">
+      <div className="pointer-events-none absolute top-12 left-10 text-rose-300 opacity-60 hidden md:block animate-float-slow">
         <DoodleHeart className="w-10 h-10" />
       </div>
-      <div className="pointer-events-none absolute top-20 right-14 text-amber-400 opacity-50 hidden md:block">
+      <div className="pointer-events-none absolute top-20 right-14 text-amber-400 opacity-70 hidden md:block animate-pulse-gently">
         <DoodleSparkle className="w-6 h-6" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
             <Clock className="w-3.5 h-3.5" />
             <span>Transparent Pricing & Plans</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight">
-            Choose Your Surprise
+            Choose Your Surprise ❤️
           </h1>
           <p className="mt-4 text-base sm:text-lg text-neutral-600 leading-relaxed">
             Every template has a designated grade. Its displayed base price includes <strong className="text-neutral-900 font-semibold">24 hours of live hosting</strong>.
@@ -53,7 +73,7 @@ export default function PricingPage() {
             {GRADE_PRICING.map((item) => (
               <div
                 key={item.grade}
-                className="relative p-6 rounded-3xl bg-white border border-rose-100/90 shadow-xs hover:shadow-md hover:border-rose-200 transition-all flex flex-col justify-between"
+                className="relative p-6 rounded-3xl bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-xs hover:shadow-lg hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <span className="inline-block px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold mb-3 border border-rose-100">
@@ -84,7 +104,7 @@ export default function PricingPage() {
         {/* Section B: Hosting Extensions */}
         <section className="mb-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-xs border border-rose-200/80 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
               <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
               <span>Hosting Extensions</span>
             </div>
@@ -96,7 +116,7 @@ export default function PricingPage() {
             </p>
 
             {/* Total Duration Clarification */}
-            <div className="mt-5 inline-flex items-center gap-2 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 text-left max-w-2xl mx-auto">
+            <div className="mt-5 inline-flex items-center gap-2 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 text-left max-w-2xl mx-auto shadow-2xs">
               <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <span>
                 <strong>Duration note:</strong> The duration listed represents the <em>total live hosting time</em> for your surprise website (it replaces the default 24-hour window rather than stacking on top of it).
@@ -110,8 +130,8 @@ export default function PricingPage() {
                 key={plan.id}
                 className={`relative flex flex-col justify-between rounded-3xl p-6 sm:p-8 transition-all duration-300 ${
                   plan.popular
-                    ? "bg-gradient-to-b from-rose-50/70 via-white to-rose-50/40 border-2 border-rose-500 shadow-xl shadow-rose-900/5 -translate-y-1"
-                    : "bg-white border border-rose-100/90 shadow-xs hover:shadow-md hover:border-rose-200"
+                    ? "bg-gradient-to-b from-white/95 via-rose-50/60 to-white/95 backdrop-blur-xs border-2 border-rose-500 shadow-xl shadow-rose-900/10 -translate-y-1"
+                    : "bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-xs hover:shadow-lg hover:border-rose-300 hover:-translate-y-1"
                 }`}
               >
                 {plan.popular && (
@@ -181,7 +201,7 @@ export default function PricingPage() {
 
         {/* Section C: Custom Websites */}
         <section className="mb-20 max-w-5xl mx-auto">
-          <div className="bg-gradient-to-br from-white via-rose-50/30 to-pink-50/40 rounded-3xl sm:rounded-[2.5rem] border border-rose-200/80 p-8 sm:p-12 shadow-md">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-[2.5rem] border border-rose-200/80 p-8 sm:p-12 shadow-xl shadow-rose-900/5">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-100 text-rose-800 text-xs font-bold tracking-wide uppercase mb-4">
                 <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
@@ -228,7 +248,7 @@ export default function PricingPage() {
         </section>
 
         {/* Section D: Pricing Clarifications & Ordering Timeline Policy */}
-        <section className="max-w-5xl mx-auto bg-neutral-50/80 rounded-3xl border border-neutral-200/80 p-6 sm:p-10 mb-12">
+        <section className="max-w-5xl mx-auto bg-white/90 backdrop-blur-xs rounded-3xl border border-rose-200/80 p-6 sm:p-10 mb-12 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
             <ShieldCheck className="w-6 h-6 text-rose-600 shrink-0" />
             <h3 className="text-xl font-bold text-neutral-900">
@@ -237,7 +257,7 @@ export default function PricingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-neutral-700 mb-8">
-            <div className="p-4 rounded-2xl bg-white border border-neutral-200/70">
+            <div className="p-4 rounded-2xl bg-white/95 border border-rose-200/70 shadow-2xs">
               <strong className="block font-bold text-neutral-900 mb-1">
                 24 Hours Included by Default
               </strong>
@@ -246,7 +266,7 @@ export default function PricingPage() {
               </span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-200/70">
+            <div className="p-4 rounded-2xl bg-white/95 border border-rose-200/70 shadow-2xs">
               <strong className="block font-bold text-neutral-900 mb-1">
                 Extension Plans are Separate
               </strong>
@@ -255,7 +275,7 @@ export default function PricingPage() {
               </span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-200/70">
+            <div className="p-4 rounded-2xl bg-white/95 border border-rose-200/70 shadow-2xs">
               <strong className="block font-bold text-neutral-900 mb-1">
                 Customization & Feature Quotes
               </strong>
@@ -264,7 +284,7 @@ export default function PricingPage() {
               </span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-200/70">
+            <div className="p-4 rounded-2xl bg-white/95 border border-rose-200/70 shadow-2xs">
               <strong className="block font-bold text-neutral-900 mb-1">
                 Manual Confirmation Before Payment
               </strong>
@@ -285,7 +305,7 @@ export default function PricingPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs mb-6">
               {ORDER_TIMING_POLICY.windows.map((w) => (
-                <div key={w.window} className="p-3 rounded-xl bg-white border border-neutral-200">
+                <div key={w.window} className="p-3 rounded-xl bg-white/95 border border-rose-200/70 shadow-2xs">
                   <span className="font-bold text-rose-600 block mb-0.5">{w.badge}</span>
                   <strong className="text-neutral-900 block">{w.window}</strong>
                   <span className="text-neutral-500 text-[11px] leading-snug block mt-1">

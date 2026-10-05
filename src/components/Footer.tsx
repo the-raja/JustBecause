@@ -3,7 +3,7 @@ import { BRAND } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="py-12 sm:py-16 bg-[#FFFDFC] border-t border-rose-100/80 text-center">
+    <footer className="py-12 sm:py-16 bg-[#FFEBEF]/90 backdrop-blur-xs border-t border-rose-200/80 text-center">
       <div className="max-w-4xl mx-auto px-4">
         {/* Minimal Required Copy */}
         <p className="text-xs sm:text-sm font-medium tracking-wide text-neutral-500 uppercase mb-2">
