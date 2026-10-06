@@ -18,7 +18,7 @@ export const templates: Template[] = [
   {
     id: "universe",
     title: "Our Story",
-    description: "A romantic interactive starry universe experience crafted especially for someone special.",
+    description: "A romantic interactive portfolio experience for someone special. Pass: 12345678",
     category: "Story",
     grade: "S Premium",
     price: 149,
