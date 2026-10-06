@@ -50,6 +50,8 @@ const PRICE_TIERS: PriceTierConfig[] = [
   },
 ];
 
+const INITIAL_VISIBLE_COUNT = 3;
+
 export default function TemplateGallery({
   title = "Find Your Perfect Surprise ❤️",
   description = "Browse interactive digital gifts, try the live demos, and choose a little experience for someone special.",
@@ -233,8 +235,8 @@ export default function TemplateGallery({
               const isExpanded = Boolean(expandedTiers[tier.price]);
               const visibleTemplates = isExpanded
                 ? tier.tierTemplates
-                : tier.tierTemplates.slice(0, 6);
-              const hasMore = tier.tierTemplates.length > 6;
+                : tier.tierTemplates.slice(0, INITIAL_VISIBLE_COUNT);
+              const hasMore = tier.tierTemplates.length > INITIAL_VISIBLE_COUNT;
 
               return (
                 <section
@@ -265,11 +267,9 @@ export default function TemplateGallery({
                       </h2>
                     </div>
 
-                    {hasMore && (
-                      <span className="text-xs text-neutral-500 font-medium">
-                        Showing {visibleTemplates.length} of {tier.tierTemplates.length}
-                      </span>
-                    )}
+                    <span className="text-xs text-neutral-500 font-medium">
+                      Showing {visibleTemplates.length} of {tier.tierTemplates.length}
+                    </span>
                   </div>
 
                   {/* Grid of Templates in this tier */}
