@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Heart, Clock, Check, Sparkles, Info, ArrowRight, ShieldCheck, AlertCircle, Calendar } from "lucide-react";
 import InstagramIcon from "@/components/icons/InstagramIcon";
-import { BRAND, HOSTING_EXTENSION_PLANS, GRADE_PRICING, ORDER_TIMING_POLICY } from "@/lib/constants";
+import { BRAND, HOSTING_EXTENSION_PLANS, ORDER_TIMING_POLICY } from "@/lib/constants";
 import { DoodleSparkle, DoodleHeart } from "@/components/Doodles";
 import FloatingHearts from "@/components/FloatingHearts";
 
@@ -58,47 +58,29 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Section A: Template Base Grades */}
+        {/* Section A: Template Grade Pricing */}
         <section className="mb-20">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900">
+          <div className="max-w-3xl mx-auto text-center p-8 sm:p-10 rounded-3xl bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-xs hover:shadow-md transition-shadow">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
               Template Grade Pricing
             </h2>
-            <p className="text-sm text-neutral-600 mt-1">
+            <p className="text-sm sm:text-base text-neutral-600 mt-2 mb-6 leading-relaxed">
               Base template price includes 24 hours of live access from the moment of delivery.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
-            {GRADE_PRICING.map((item) => (
-              <div
-                key={item.grade}
-                className="relative p-6 rounded-3xl bg-white/90 backdrop-blur-xs border border-rose-200/80 shadow-xs hover:shadow-lg hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+            <div className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-extrabold text-base sm:text-lg tracking-wide shadow-md shadow-rose-500/20">
+              <Sparkles className="w-5 h-5 text-rose-100" />
+              <span>PRICING STARTS FROM JUST RS 49 Onwards</span>
+            </div>
+            <div className="mt-5">
+              <Link
+                href="/templates"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition-colors"
               >
-                <div>
-                  <span className="inline-block px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold mb-3 border border-rose-100">
-                    Grade {item.grade}
-                  </span>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-3xl sm:text-4xl font-black text-neutral-900">₹{item.price}</span>
-                    <span className="text-xs text-neutral-500 font-medium">/ base price</span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-rose-100/70 text-[11px] text-neutral-500 flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-rose-500 shrink-0" />
-                  <span>Includes 24h live hosting</span>
-                </div>
-              </div>
-            ))}
+                <span>Browse all templates in gallery</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-
-          <p className="text-center text-xs text-neutral-500 mt-4">
-            Initial templates in our gallery are configured as Grade S Premium at ₹149.
-          </p>
         </section>
 
         {/* Section B: Hosting Extensions */}

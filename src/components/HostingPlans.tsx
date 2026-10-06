@@ -1,6 +1,6 @@
-import { Heart, Clock, Check, Sparkles, Info } from "lucide-react";
+import { Clock, Check, Sparkles, Info } from "lucide-react";
 import InstagramIcon from "@/components/icons/InstagramIcon";
-import { BRAND, HOSTING_EXTENSION_PLANS, GRADE_PRICING } from "@/lib/constants";
+import { BRAND, HOSTING_EXTENSION_PLANS } from "@/lib/constants";
 
 export default function HostingPlans() {
   return (
@@ -104,40 +104,17 @@ export default function HostingPlans() {
           ))}
         </div>
 
-        {/* Grade Base Pricing Reference */}
-        <div className="mt-16 sm:mt-20 max-w-4xl mx-auto p-6 sm:p-8 rounded-3xl bg-neutral-50/70 border border-neutral-200/70">
-          <div className="text-center mb-6">
-            <h4 className="text-lg sm:text-xl font-bold text-neutral-900">
-              Template Base Grades Reference
-            </h4>
-            <p className="text-xs sm:text-sm text-neutral-600 mt-1">
-              Every template has a designated grade. All base prices include the standard 24-hour live hosting window.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            {GRADE_PRICING.map((item) => (
-              <div
-                key={item.grade}
-                className="p-4 rounded-2xl bg-white border border-neutral-200 text-center shadow-2xs"
-              >
-                <span className="inline-block px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold mb-2">
-                  Grade {item.grade}
-                </span>
-                <div className="text-2xl font-black text-neutral-900">₹{item.price}</div>
-                <p className="text-[11px] text-neutral-500 mt-1.5 leading-snug">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-center text-xs text-neutral-500 mt-5 flex items-center justify-center gap-1.5">
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
-            <span>
-              Hosting extensions are optional additions agreed upon during order confirmation on Instagram.
-            </span>
+        {/* Template Grade Pricing Reference */}
+        <div className="mt-16 sm:mt-20 max-w-2xl mx-auto p-6 sm:p-8 rounded-3xl bg-neutral-50/80 border border-rose-200/70 text-center shadow-xs">
+          <h4 className="text-lg sm:text-xl font-bold text-neutral-900">
+            Template Grade Pricing
+          </h4>
+          <p className="text-xs sm:text-sm text-neutral-600 mt-1 mb-5">
+            Base template price includes 24 hours of live access from the moment of delivery.
           </p>
+          <div className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-extrabold text-sm tracking-wide shadow-xs">
+            PRICING STARTS FROM JUST RS 49 Onwards
+          </div>
         </div>
       </div>
     </section>
