@@ -66,7 +66,7 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-base sm:text-lg tracking-tight text-neutral-900 flex items-center gap-1.5">
+              <span className="font-extrabold text-base sm:text-lg tracking-tight text-pink-800 flex items-center gap-1.5">
                 JUST BECAUSE
                 <Heart className="w-4 h-4 fill-rose-500 text-rose-500 inline-block animate-pulse-gently" />
               </span>

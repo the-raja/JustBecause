@@ -70,7 +70,7 @@ export default function Hero() {
         </div>
 
         {/* Supporting Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-pink-500 leading-[1.12]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-pink-800 leading-[1.12]">
           Don&apos;t just send a &ldquo;Happy Birthday.&rdquo;
           <span className="block mt-2 sm:mt-3 font-dancing font-bold text-[2.35rem] sm:text-6xl md:text-7xl lg:text-[5.25rem] tracking-normal leading-[1.3] px-1 pt-1 pb-3 sm:pb-4 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 bg-clip-text text-transparent drop-shadow-xs overflow-visible">
             Send a Whole Feeling

@@ -14,7 +14,7 @@ export default function TemplateCard({ template }: TemplateCardProps) {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <article className="group flex flex-col bg-white/90 backdrop-blur-xs rounded-3xl border border-rose-200/70 shadow-xs hover:shadow-xl hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <article className="group flex flex-col h-full bg-white/90 backdrop-blur-xs rounded-3xl border border-rose-200/70 shadow-xs hover:shadow-xl hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
       {/* Card Visual / Image Section */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50/60 to-rose-100/30">
         {!imageError ? (
@@ -51,9 +51,12 @@ export default function TemplateCard({ template }: TemplateCardProps) {
           <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-neutral-800 text-[11px] font-bold tracking-wide shadow-2xs border border-rose-100/60">
             {template.category}
           </span>
-          <span className="px-3 py-1 rounded-full bg-rose-600/95 backdrop-blur-xs text-white text-[11px] font-bold tracking-wide shadow-2xs">
-            {template.grade}
-          </span>
+          {template.featured && (
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-rose-600/95 backdrop-blur-xs text-white text-[11px] font-bold tracking-wide shadow-2xs">
+              <Sparkles className="w-3 h-3 fill-white" />
+              <span>Featured</span>
+            </span>
+          )}
         </div>
       </div>
 
@@ -66,7 +69,7 @@ export default function TemplateCard({ template }: TemplateCardProps) {
           </h3>
 
           {/* Short Description */}
-          <p className="mt-2 text-sm text-neutral-600 leading-relaxed line-clamp-2">
+          <p className="mt-2 text-sm text-neutral-600 leading-relaxed line-clamp-2 min-h-[2.625rem]">
             {template.description}
           </p>
         </div>

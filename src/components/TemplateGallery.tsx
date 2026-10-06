@@ -1,8 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Heart, RefreshCw, Sparkles } from "lucide-react";
-import { templates, getCategories, filterTemplates } from "@/data/templates";
+import { ChevronDown, Heart, RefreshCw, Sparkles } from "lucide-react";
+import {
+  templates,
+  getCategories,
+  filterTemplates,
+  sortTemplates,
+  SortOption,
+} from "@/data/templates";
 import TemplateCard from "./TemplateCard";
 import TemplateSearch from "./TemplateSearch";
 import CategoryFilters from "./CategoryFilters";
@@ -22,14 +28,16 @@ export default function TemplateGallery({
 }: TemplateGalleryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState<SortOption>("relevance");
 
   // Dynamically compute unique categories from template data
   const categories = useMemo(() => getCategories(templates), []);
 
-  // Filter templates based on search query and category
-  const filteredTemplates = useMemo(() => {
-    return filterTemplates(templates, searchQuery, selectedCategory);
-  }, [searchQuery, selectedCategory]);
+  // Filter templates based on search query and category, then apply sorting
+  const displayedTemplates = useMemo(() => {
+    const filtered = filterTemplates(templates, searchQuery, selectedCategory);
+    return sortTemplates(filtered, sortBy);
+  }, [searchQuery, selectedCategory, sortBy]);
 
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -96,38 +104,73 @@ export default function TemplateGallery({
             onSelectCategory={setSelectedCategory}
           />
 
-          {/* Results Summary Bar */}
-          <div className="flex items-center justify-between max-w-6xl mx-auto px-2 text-xs sm:text-sm text-neutral-500">
-            <span className="font-medium">
-              Showing{" "}
-              <strong className="text-neutral-800 font-bold">
-                {filteredTemplates.length}
-              </strong>{" "}
-              {filteredTemplates.length === 1 ? "surprise template" : "surprise templates"}
-              {isFiltered && (
-                <span className="text-neutral-500 ml-1">
-                  (filtered from {templates.length})
-                </span>
-              )}
-            </span>
+          {/* Results Summary & Sort Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 max-w-7xl mx-auto px-2 text-xs sm:text-sm text-neutral-500">
+            {/* Left: Results count & optional reset button */}
+            <div className="flex items-center gap-3">
+              <span className="font-medium">
+                Showing{" "}
+                <strong className="text-neutral-800 font-bold">
+                  {displayedTemplates.length}
+                </strong>{" "}
+                {displayedTemplates.length === 1 ? "surprise template" : "surprise templates"}
+                {isFiltered && (
+                  <span className="text-neutral-500 ml-1">
+                    (filtered from {templates.length})
+                  </span>
+                )}
+              </span>
 
-            {isFiltered && (
-              <button
-                type="button"
-                onClick={handleClearFilters}
-                className="inline-flex items-center gap-1 text-rose-600 hover:text-rose-700 font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm cursor-pointer"
+              {isFiltered && (
+                <button
+                  type="button"
+                  onClick={handleClearFilters}
+                  className="inline-flex items-center gap-1 text-rose-600 hover:text-rose-700 font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm cursor-pointer"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>Reset filters</span>
+                </button>
+              )}
+            </div>
+
+            {/* Right: Sort by Dropdown */}
+            <div className="flex items-center self-end sm:self-auto gap-2">
+              <label
+                htmlFor="template-sort"
+                className="text-neutral-600 font-semibold text-xs sm:text-sm whitespace-nowrap"
               >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>Reset filters</span>
-              </button>
-            )}
+                Sort by:
+              </label>
+              <div className="relative inline-block">
+                <select
+                  id="template-sort"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  aria-label="Sort surprise templates"
+                  className="appearance-none bg-white/95 backdrop-blur-xs border border-rose-200/80 rounded-xl pl-3.5 pr-8 py-1.5 text-xs sm:text-sm font-semibold text-neutral-800 hover:border-rose-300 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-400/20 shadow-2xs cursor-pointer transition-all"
+                >
+                  <option value="relevance">Relevance</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-neutral-500 pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Template Grid */}
-        {filteredTemplates.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
-            {filteredTemplates.map((template) => (
+        {displayedTemplates.length > 0 ? (
+          <div
+            className={`grid gap-6 sm:gap-8 mx-auto ${
+              displayedTemplates.length === 1
+                ? "grid-cols-1 max-w-md"
+                : displayedTemplates.length === 2
+                ? "grid-cols-1 sm:grid-cols-2 max-w-3xl"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl"
+            }`}
+          >
+            {displayedTemplates.map((template) => (
               <TemplateCard key={template.id} template={template} />
             ))}
           </div>

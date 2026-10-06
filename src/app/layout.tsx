@@ -99,7 +99,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${dancingScript.variable} ${greatVibes.variable} ${sacramento.variable} ${allura.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${plusJakarta.variable} ${dancingScript.variable} ${greatVibes.variable} ${sacramento.variable} ${allura.variable} scroll-smooth`}
+    >
       <body className="min-h-screen flex flex-col font-sans bg-[#FFF6F8] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased">
         <Navbar />
         <div className="flex-1">{children}</div>
