@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { templates, getFeaturedTemplates } from "@/data/templates";
+import { templates, getHomepageFeaturedTemplates } from "@/data/templates";
 import TemplateCard from "./TemplateCard";
 import { DoodleHeart, DoodleSparkle } from "./Doodles";
 
 export default function FeaturedTemplates() {
-  const featured = getFeaturedTemplates(templates);
+  const featured = getHomepageFeaturedTemplates(templates);
 
   return (
     <section className="py-16 sm:py-24 bg-gradient-to-b from-[#FFF2F6] via-[#FFF8F9] to-[#FFEBF1] relative overflow-hidden">

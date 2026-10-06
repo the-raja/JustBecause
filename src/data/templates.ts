@@ -80,7 +80,7 @@ export const templates: Template[] = [
       "girlfriend",
       "boyfriend",
     ],
-    featured: true,
+    featured: false,
   },
   {
     id: "birthday",
@@ -102,7 +102,7 @@ export const templates: Template[] = [
       "best friend",
       "bday",
     ],
-    featured: true,
+    featured: false,
   },
   {
     id: "3d-flower-garden",
@@ -127,7 +127,7 @@ export const templates: Template[] = [
       "boyfriend",
       "love",
     ],
-    featured: false,
+    featured: true,
   },
   {
     id: "virtual-hug",
@@ -175,7 +175,7 @@ export const templates: Template[] = [
       "boyfriend",
       "hbd",
     ],
-    featured: false,
+    featured: true,
   },
   {
     id: "ask-me-out",
@@ -1228,10 +1228,39 @@ export function getCategories(templateList: Template[] = templates): string[] {
 }
 
 /**
- * Extract only featured templates (initially 3 for the homepage).
+ * Returns exactly one representative template from each of three price tiers in this exact order:
+ * 1. ₹49 (attractive entry-level surprise)
+ * 2. ₹99 (interactive surprise)
+ * 3. ₹149 (premium experience)
+ * Total: exactly 3 cards maximum, deterministic selection, visually distinct experiences.
+ */
+export function getHomepageFeaturedTemplates(
+  templateList: Template[] = templates
+): Template[] {
+  const preferred49Id = "birthday-candle";
+  const preferred99Id = "3d-flower-garden";
+  const preferred149Id = "universe";
+
+  const item49 =
+    templateList.find((t) => t.id === preferred49Id && t.price === 49) ||
+    templateList.find((t) => t.price === 49);
+
+  const item99 =
+    templateList.find((t) => t.id === preferred99Id && t.price === 99) ||
+    templateList.find((t) => t.price === 99);
+
+  const item149 =
+    templateList.find((t) => t.id === preferred149Id && t.price === 149) ||
+    templateList.find((t) => t.price === 149);
+
+  return [item49, item99, item149].filter((t): t is Template => Boolean(t));
+}
+
+/**
+ * Extract only featured templates (delegates to getHomepageFeaturedTemplates for 3-tier variety).
  */
 export function getFeaturedTemplates(templateList: Template[] = templates): Template[] {
-  return templateList.filter((t) => t.featured);
+  return getHomepageFeaturedTemplates(templateList);
 }
 
 /**

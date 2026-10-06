@@ -21,6 +21,35 @@ interface TemplateGalleryProps {
   badge?: string;
 }
 
+interface PriceTierConfig {
+  price: number;
+  heading: string;
+  isPremium?: boolean;
+}
+
+const PRICE_TIERS: PriceTierConfig[] = [
+  {
+    price: 49,
+    heading: "Little Surprises, Big Feelings ❤️",
+    isPremium: false,
+  },
+  {
+    price: 69,
+    heading: "A Little More Love 💗",
+    isPremium: false,
+  },
+  {
+    price: 99,
+    heading: "Beautifully Extra Surprises ✨",
+    isPremium: false,
+  },
+  {
+    price: 149,
+    heading: "The Premium Love Collection 💖",
+    isPremium: true,
+  },
+];
+
 export default function TemplateGallery({
   title = "Find Your Perfect Surprise ❤️",
   description = "Browse interactive digital gifts, try the live demos, and choose a little experience for someone special.",
@@ -29,6 +58,14 @@ export default function TemplateGallery({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
+  const [expandedTiers, setExpandedTiers] = useState<Record<number, boolean>>({});
+
+  // Reset expansion states when search query or selected category changes (React 19 pattern)
+  const [prevFilters, setPrevFilters] = useState({ query: searchQuery, category: selectedCategory });
+  if (prevFilters.query !== searchQuery || prevFilters.category !== selectedCategory) {
+    setPrevFilters({ query: searchQuery, category: selectedCategory });
+    setExpandedTiers({});
+  }
 
   // Dynamically compute unique categories from template data
   const categories = useMemo(() => getCategories(templates), []);
@@ -39,9 +76,39 @@ export default function TemplateGallery({
     return sortTemplates(filtered, sortBy);
   }, [searchQuery, selectedCategory, sortBy]);
 
+  // Ensure sorting and price sections behave consistently:
+  // Ascending/relevance keeps exact order [49, 69, 99, 149], descending inverts tier order
+  const activeTiers = useMemo(() => {
+    if (sortBy === "price-desc") {
+      return [...PRICE_TIERS].reverse();
+    }
+    return PRICE_TIERS;
+  }, [sortBy]);
+
+  // Group matching templates into their respective price tiers
+  const tierSections = useMemo(() => {
+    return activeTiers
+      .map((tier) => {
+        const tierTemplates = displayedTemplates.filter((t) => t.price === tier.price);
+        return {
+          ...tier,
+          tierTemplates,
+        };
+      })
+      .filter((tier) => tier.tierTemplates.length > 0); // Hide a price section when no templates match it
+  }, [activeTiers, displayedTemplates]);
+
+  const toggleTier = (price: number) => {
+    setExpandedTiers((prev) => ({
+      ...prev,
+      [price]: !prev[price],
+    }));
+  };
+
   const handleClearFilters = () => {
     setSearchQuery("");
     setSelectedCategory("All");
+    setExpandedTiers({});
   };
 
   const isFiltered = searchQuery.trim().length > 0 || selectedCategory !== "All";
@@ -159,20 +226,88 @@ export default function TemplateGallery({
           </div>
         </div>
 
-        {/* Template Grid */}
-        {displayedTemplates.length > 0 ? (
-          <div
-            className={`grid gap-6 sm:gap-8 mx-auto ${
-              displayedTemplates.length === 1
-                ? "grid-cols-1 max-w-md"
-                : displayedTemplates.length === 2
-                ? "grid-cols-1 sm:grid-cols-2 max-w-3xl"
-                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl"
-            }`}
-          >
-            {displayedTemplates.map((template) => (
-              <TemplateCard key={template.id} template={template} />
-            ))}
+        {/* Price-Tier Grouped Sections or Empty State */}
+        {tierSections.length > 0 ? (
+          <div className="space-y-14 sm:space-y-18">
+            {tierSections.map((tier) => {
+              const isExpanded = Boolean(expandedTiers[tier.price]);
+              const visibleTemplates = isExpanded
+                ? tier.tierTemplates
+                : tier.tierTemplates.slice(0, 6);
+              const hasMore = tier.tierTemplates.length > 6;
+
+              return (
+                <section
+                  key={tier.price}
+                  id={`tier-${tier.price}`}
+                  aria-label={tier.heading}
+                  className="rounded-3xl bg-white/50 backdrop-blur-xs border border-white/70 p-5 sm:p-8 shadow-xs"
+                >
+                  {/* Tier Section Heading */}
+                  <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 pb-4 mb-6 sm:mb-8 border-b border-rose-200/70">
+                    <div>
+                      <div className="flex items-center gap-2.5 flex-wrap mb-2">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-rose-600 text-white shadow-2xs tracking-wide">
+                          ₹{tier.price}
+                        </span>
+                        {tier.isPremium && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider bg-rose-100 text-rose-700 border border-rose-200 shadow-2xs uppercase">
+                            PREMIUM
+                          </span>
+                        )}
+                        <span className="text-xs font-bold text-neutral-500 bg-white/80 px-2.5 py-0.5 rounded-full border border-rose-100 shadow-2xs">
+                          {tier.tierTemplates.length}{" "}
+                          {tier.tierTemplates.length === 1 ? "surprise" : "surprises"}
+                        </span>
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+                        {tier.heading}
+                      </h2>
+                    </div>
+
+                    {hasMore && (
+                      <span className="text-xs text-neutral-500 font-medium">
+                        Showing {visibleTemplates.length} of {tier.tierTemplates.length}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Grid of Templates in this tier */}
+                  <div
+                    className={`grid gap-6 sm:gap-8 ${
+                      visibleTemplates.length === 1
+                        ? "grid-cols-1 max-w-md mx-auto sm:mx-0"
+                        : visibleTemplates.length === 2
+                        ? "grid-cols-1 sm:grid-cols-2 max-w-3xl"
+                        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                    }`}
+                  >
+                    {visibleTemplates.map((template) => (
+                      <TemplateCard key={template.id} template={template} />
+                    ))}
+                  </div>
+
+                  {/* Show More / Show Less Button */}
+                  {hasMore && (
+                    <div className="mt-8 sm:mt-10 text-center">
+                      <button
+                        type="button"
+                        onClick={() => toggleTier(tier.price)}
+                        aria-expanded={isExpanded}
+                        className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white/95 hover:bg-white text-neutral-800 hover:text-rose-600 font-bold text-sm border border-rose-200/90 hover:border-rose-300 shadow-2xs hover:shadow-xs transition-all duration-200 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                      >
+                        <span>{isExpanded ? "Show Less" : "Show More"}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-200 ${
+                            isExpanded ? "rotate-180 text-rose-500" : "text-neutral-500"
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  )}
+                </section>
+              );
+            })}
           </div>
         ) : (
           /* Empty State */
