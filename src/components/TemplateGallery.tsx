@@ -21,36 +21,8 @@ interface TemplateGalleryProps {
   badge?: string;
 }
 
-interface PriceTierConfig {
-  price: number;
-  heading: string;
-  isPremium?: boolean;
-}
-
-const PRICE_TIERS: PriceTierConfig[] = [
-  {
-    price: 49,
-    heading: "Little Surprises, Big Feelings ❤️",
-    isPremium: false,
-  },
-  {
-    price: 69,
-    heading: "A Little More Love 💗",
-    isPremium: false,
-  },
-  {
-    price: 99,
-    heading: "Beautifully Extra Surprises ✨",
-    isPremium: false,
-  },
-  {
-    price: 149,
-    heading: "The Premium Love Collection 💖",
-    isPremium: true,
-  },
-];
-
-const INITIAL_VISIBLE_COUNT = 3;
+const INITIAL_VISIBLE_COUNT = 12;
+const LOAD_MORE_COUNT = 12;
 
 export default function TemplateGallery({
   title = "Find Your Perfect Surprise ❤️",
@@ -60,16 +32,28 @@ export default function TemplateGallery({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
-  const [expandedTiers, setExpandedTiers] = useState<Record<number, boolean>>({});
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
 
-  // Reset expansion states when search query or selected category changes (React 19 pattern)
-  const [prevFilters, setPrevFilters] = useState({ query: searchQuery, category: selectedCategory });
-  if (prevFilters.query !== searchQuery || prevFilters.category !== selectedCategory) {
-    setPrevFilters({ query: searchQuery, category: selectedCategory });
-    setExpandedTiers({});
+  // Reset progressive loading when search query, selected category, or sort changes (React 19 pattern)
+  const [prevFilters, setPrevFilters] = useState({
+    query: searchQuery,
+    category: selectedCategory,
+    sort: sortBy,
+  });
+  if (
+    prevFilters.query !== searchQuery ||
+    prevFilters.category !== selectedCategory ||
+    prevFilters.sort !== sortBy
+  ) {
+    setPrevFilters({
+      query: searchQuery,
+      category: selectedCategory,
+      sort: sortBy,
+    });
+    setVisibleCount(INITIAL_VISIBLE_COUNT);
   }
 
-  // Dynamically compute unique categories from template data
+  // Dynamically compute unique categories from template data (including Premium)
   const categories = useMemo(() => getCategories(templates), []);
 
   // Filter templates based on search query and category, then apply sorting
@@ -78,39 +62,17 @@ export default function TemplateGallery({
     return sortTemplates(filtered, sortBy);
   }, [searchQuery, selectedCategory, sortBy]);
 
-  // Ensure sorting and price sections behave consistently:
-  // Ascending/relevance keeps exact order [49, 69, 99, 149], descending inverts tier order
-  const activeTiers = useMemo(() => {
-    if (sortBy === "price-desc") {
-      return [...PRICE_TIERS].reverse();
-    }
-    return PRICE_TIERS;
-  }, [sortBy]);
+  // Progressive loading slice
+  const visibleTemplates = useMemo(() => {
+    return displayedTemplates.slice(0, visibleCount);
+  }, [displayedTemplates, visibleCount]);
 
-  // Group matching templates into their respective price tiers
-  const tierSections = useMemo(() => {
-    return activeTiers
-      .map((tier) => {
-        const tierTemplates = displayedTemplates.filter((t) => t.price === tier.price);
-        return {
-          ...tier,
-          tierTemplates,
-        };
-      })
-      .filter((tier) => tier.tierTemplates.length > 0); // Hide a price section when no templates match it
-  }, [activeTiers, displayedTemplates]);
-
-  const toggleTier = (price: number) => {
-    setExpandedTiers((prev) => ({
-      ...prev,
-      [price]: !prev[price],
-    }));
-  };
+  const hasMore = visibleCount < displayedTemplates.length;
 
   const handleClearFilters = () => {
     setSearchQuery("");
     setSelectedCategory("All");
-    setExpandedTiers({});
+    setVisibleCount(INITIAL_VISIBLE_COUNT);
   };
 
   const isFiltered = searchQuery.trim().length > 0 || selectedCategory !== "All";
@@ -180,8 +142,17 @@ export default function TemplateGallery({
               <span className="font-medium">
                 Showing{" "}
                 <strong className="text-neutral-800 font-bold">
-                  {displayedTemplates.length}
-                </strong>{" "}
+                  {visibleTemplates.length}
+                </strong>
+                {displayedTemplates.length > visibleTemplates.length && (
+                  <span>
+                    {" "}
+                    of{" "}
+                    <strong className="text-neutral-800 font-bold">
+                      {displayedTemplates.length}
+                    </strong>
+                  </span>
+                )}{" "}
                 {displayedTemplates.length === 1 ? "surprise template" : "surprise templates"}
                 {isFiltered && (
                   <span className="text-neutral-500 ml-1">
@@ -228,87 +199,54 @@ export default function TemplateGallery({
           </div>
         </div>
 
-        {/* Price-Tier Grouped Sections or Empty State */}
-        {tierSections.length > 0 ? (
-          <div className="space-y-14 sm:space-y-18">
-            {tierSections.map((tier) => {
-              const isExpanded = Boolean(expandedTiers[tier.price]);
-              const visibleTemplates = isExpanded
-                ? tier.tierTemplates
-                : tier.tierTemplates.slice(0, INITIAL_VISIBLE_COUNT);
-              const hasMore = tier.tierTemplates.length > INITIAL_VISIBLE_COUNT;
+        {/* Continuous Catalogue Grid or Empty State */}
+        {displayedTemplates.length > 0 ? (
+          <>
+            <div
+              className={`grid gap-6 sm:gap-8 mx-auto ${
+                visibleTemplates.length === 1
+                  ? "grid-cols-1 max-w-md"
+                  : visibleTemplates.length === 2
+                  ? "grid-cols-1 sm:grid-cols-2 max-w-3xl"
+                  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl"
+              }`}
+            >
+              {visibleTemplates.map((template) => (
+                <TemplateCard key={template.id} template={template} />
+              ))}
+            </div>
 
-              return (
-                <section
-                  key={tier.price}
-                  id={`tier-${tier.price}`}
-                  aria-label={tier.heading}
-                  className="rounded-3xl bg-white/50 backdrop-blur-xs border border-white/70 p-5 sm:p-8 shadow-xs"
-                >
-                  {/* Tier Section Heading */}
-                  <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 pb-4 mb-6 sm:mb-8 border-b border-rose-200/70">
-                    <div>
-                      <div className="flex items-center gap-2.5 flex-wrap mb-2">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-rose-600 text-white shadow-2xs tracking-wide">
-                          ₹{tier.price}
-                        </span>
-                        {tier.isPremium && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider bg-rose-100 text-rose-700 border border-rose-200 shadow-2xs uppercase">
-                            PREMIUM
-                          </span>
-                        )}
-                        <span className="text-xs font-bold text-neutral-500 bg-white/80 px-2.5 py-0.5 rounded-full border border-rose-100 shadow-2xs">
-                          {tier.tierTemplates.length}{" "}
-                          {tier.tierTemplates.length === 1 ? "surprise" : "surprises"}
-                        </span>
-                      </div>
-                      <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
-                        {tier.heading}
-                      </h2>
-                    </div>
-
-                    <span className="text-xs text-neutral-500 font-medium">
-                      Showing {visibleTemplates.length} of {tier.tierTemplates.length}
-                    </span>
-                  </div>
-
-                  {/* Grid of Templates in this tier */}
-                  <div
-                    className={`grid gap-6 sm:gap-8 ${
-                      visibleTemplates.length === 1
-                        ? "grid-cols-1 max-w-md mx-auto sm:mx-0"
-                        : visibleTemplates.length === 2
-                        ? "grid-cols-1 sm:grid-cols-2 max-w-3xl"
-                        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                    }`}
+            {/* Progressive Loading: Show More / Show Less */}
+            {displayedTemplates.length > INITIAL_VISIBLE_COUNT && (
+              <div className="mt-12 sm:mt-14 text-center">
+                {hasMore ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setVisibleCount((prev) =>
+                        Math.min(prev + LOAD_MORE_COUNT, displayedTemplates.length)
+                      )
+                    }
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 hover:text-rose-600 font-bold text-sm border border-rose-200/90 hover:border-rose-300 shadow-2xs hover:shadow-xs transition-all duration-200 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                   >
-                    {visibleTemplates.map((template) => (
-                      <TemplateCard key={template.id} template={template} />
-                    ))}
-                  </div>
-
-                  {/* Show More / Show Less Button */}
-                  {hasMore && (
-                    <div className="mt-8 sm:mt-10 text-center">
-                      <button
-                        type="button"
-                        onClick={() => toggleTier(tier.price)}
-                        aria-expanded={isExpanded}
-                        className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white/95 hover:bg-white text-neutral-800 hover:text-rose-600 font-bold text-sm border border-rose-200/90 hover:border-rose-300 shadow-2xs hover:shadow-xs transition-all duration-200 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
-                      >
-                        <span>{isExpanded ? "Show Less" : "Show More"}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform duration-200 ${
-                            isExpanded ? "rotate-180 text-rose-500" : "text-neutral-500"
-                          }`}
-                        />
-                      </button>
-                    </div>
-                  )}
-                </section>
-              );
-            })}
-          </div>
+                    <span>
+                      Show More Surprises ({displayedTemplates.length - visibleCount} remaining)
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-rose-500" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setVisibleCount(INITIAL_VISIBLE_COUNT)}
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 hover:text-rose-600 font-bold text-sm border border-rose-200/90 hover:border-rose-300 shadow-2xs hover:shadow-xs transition-all duration-200 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                  >
+                    <span>Show Less</span>
+                    <ChevronDown className="w-4 h-4 rotate-180 text-rose-500" />
+                  </button>
+                )}
+              </div>
+            )}
+          </>
         ) : (
           /* Empty State */
           <div className="text-center py-16 sm:py-20 px-4 max-w-md mx-auto bg-white/85 backdrop-blur-xs rounded-3xl border border-dashed border-rose-300 shadow-sm">
