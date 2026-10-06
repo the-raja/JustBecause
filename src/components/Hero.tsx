@@ -65,12 +65,12 @@ export default function Hero() {
         </div>
 
         {/* Main Headline */}
-        <div className="text-xl sm:text-2xl font-bold text-rose-500 tracking-tight mb-2">
+        <div className="text-xl sm:text-2xl font-dancing font-bold text-rose-500 tracking-tight mb-2">
           {BRAND.tagline}
         </div>
 
         {/* Supporting Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-pink-800 leading-[1.12]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-pink-700 leading-[1.12]">
           Don&apos;t just send a &ldquo;Happy Birthday.&rdquo;
           <span className="block mt-2 sm:mt-3 font-dancing font-bold text-[2.35rem] sm:text-6xl md:text-7xl lg:text-[5.25rem] tracking-normal leading-[1.3] px-1 pt-1 pb-3 sm:pb-4 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 bg-clip-text text-transparent drop-shadow-xs overflow-visible">
             Send a Whole Feeling
@@ -79,7 +79,7 @@ export default function Hero() {
 
         {/* Description */}
         <p className="mt-5 text-base sm:text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-          Discover interactive surprise websites for the people who make your life special.
+          Little surprises. Big feelings. Starting at Just ₹49.
         </p>
 
         {/* Optional Interactive Love Letter */}
@@ -108,7 +108,8 @@ export default function Hero() {
 
         {/* Small Supporting Text */}
         <p className="mt-6 text-xs sm:text-sm font-semibold text-neutral-500 flex items-center justify-center gap-1.5">
-          <span>Little surprises. Big feelings. Starting at ₹49.</span>
+          <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 inline-block" />
+          <span>Make her feel Love, Make her smile , make her Cry, make her heart melt </span>
           <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 inline-block" />
         </p>
 

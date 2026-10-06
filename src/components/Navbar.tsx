@@ -70,8 +70,8 @@ export default function Navbar() {
                 JUST BECAUSE
                 <Heart className="w-4 h-4 fill-rose-500 text-rose-500 inline-block animate-pulse-gently" />
               </span>
-              <span className="text-[10px] sm:text-[11px] font-medium text-rose-500 tracking-wider -mt-1 hidden xs:block">
-                becoz you love him/her.
+              <span className="text-[10px] sm:text-[11px] font-dancing font-medium text-rose-500 tracking-wider -mt-1 hidden xs:block">
+                you love him/her.
               </span>
             </div>
           </Link>
