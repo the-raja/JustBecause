@@ -103,8 +103,12 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       className={`${plusJakarta.variable} ${dancingScript.variable} ${greatVibes.variable} ${sacramento.variable} ${allura.variable} scroll-smooth`}
+      suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col font-sans bg-[#FFF6F8] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased">
+      <body
+        className="min-h-screen flex flex-col font-sans bg-[#FFF6F8] text-[#1C1819] selection:bg-rose-200 selection:text-rose-900 antialiased"
+        suppressHydrationWarning
+      >
         <Navbar />
         <div className="flex-1">{children}</div>
         <Footer />

@@ -211,8 +211,12 @@ export default function TemplateGallery({
                   : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl"
               }`}
             >
-              {visibleTemplates.map((template) => (
-                <TemplateCard key={template.id} template={template} />
+              {visibleTemplates.map((template, index) => (
+                <TemplateCard
+                  key={template.id}
+                  template={template}
+                  priority={index < 3}
+                />
               ))}
             </div>
 

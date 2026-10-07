@@ -40,8 +40,12 @@ export default function FeaturedTemplates() {
 
         {/* 3 Featured Template Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto mb-12">
-          {featured.map((template) => (
-            <TemplateCard key={template.id} template={template} />
+          {featured.map((template, index) => (
+            <TemplateCard
+              key={template.id}
+              template={template}
+              priority={index < 3}
+            />
           ))}
         </div>
 

@@ -8,9 +8,10 @@ import { BRAND } from "@/lib/constants";
 
 interface TemplateCardProps {
   template: Template;
+  priority?: boolean;
 }
 
-export default function TemplateCard({ template }: TemplateCardProps) {
+export default function TemplateCard({ template, priority = false }: TemplateCardProps) {
   const [imageError, setImageError] = useState(false);
 
   return (
@@ -25,7 +26,7 @@ export default function TemplateCard({ template }: TemplateCardProps) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             onError={() => setImageError(true)}
-            priority={false}
+            priority={priority}
           />
         ) : (
           /* Graceful Polished Fallback when screenshot is pending */
