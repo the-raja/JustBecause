@@ -52,9 +52,6 @@ export default function TemplateCard({ template }: TemplateCardProps) {
             <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-neutral-800 text-[11px] font-bold tracking-wide shadow-2xs border border-rose-100/60">
               {template.category}
             </span>
-            <span className="px-2.5 py-1 rounded-full bg-rose-50/95 backdrop-blur-xs text-rose-700 text-[11px] font-bold tracking-wide shadow-2xs border border-rose-200/70">
-              Grade {template.grade}
-            </span>
           </div>
           {template.featured && (
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-rose-600/95 backdrop-blur-xs text-white text-[11px] font-bold tracking-wide shadow-2xs">

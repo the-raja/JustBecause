@@ -1198,40 +1198,34 @@ export const templates: Template[] = [
 ];
 
 /**
- * Dynamically extract unique categories from templates.
- * Ordered by natural popularity/shopping priority with "All" prepended.
+ * Exactly seven simplified category filters in specified order:
+ * 1. All
+ * 2. Love
+ * 3. Birthday
+ * 4. Proposal
+ * 5. Flowers
+ * 6. Special Moments
+ * 7. Premium
  */
-export function getCategories(templateList: Template[] = templates): string[] {
-  const preferredOrder = [
-    "All",
-    "Love",
-    "Birthday",
-    "Proposal",
-    "Flowers",
-    "Story",
-    "Anniversary",
-    "Friendship",
-    "Memories",
-    "Apology",
-    "Appreciation",
-  ];
-  const uniqueCategories = Array.from(
-    new Set(templateList.map((t) => t.category.trim()))
-  ).filter(Boolean);
+export const FILTER_CATEGORIES = [
+  "All",
+  "Love",
+  "Birthday",
+  "Proposal",
+  "Flowers",
+  "Special Moments",
+  "Premium",
+] as const;
 
-  const baseCategories = [
-    "All",
-    ...preferredOrder.filter((cat) => cat !== "All" && uniqueCategories.includes(cat)),
-    ...uniqueCategories.filter((cat) => !preferredOrder.includes(cat) && cat !== "Interactive").sort(),
-  ];
+export type FilterCategory = (typeof FILTER_CATEGORIES)[number];
 
-  // Append "Premium" category pill as specified: All, Love, Birthday, Proposal, Flowers, Story, Anniversary, Friendship, Memories, Apology, Appreciation, Premium.
-  if (!baseCategories.includes("Premium")) {
-    baseCategories.push("Premium");
-  }
-
-  return baseCategories;
+/**
+ * Returns the simplified category filters.
+ */
+export function getCategories(): string[] {
+  return [...FILTER_CATEGORIES];
 }
+
 
 /**
  * Returns exactly one representative template from each of three price tiers in this exact order:
@@ -1270,49 +1264,337 @@ export function getFeaturedTemplates(templateList: Template[] = templates): Temp
 }
 
 /**
- * Filter templates by case-insensitive partial match across:
- * - title
- * - description
- * - category
- * - grade
- * - searchKeywords
- * In combination with the selected category.
+ * Classifies a template into one or more categories based on its metadata, title, and interaction type.
+ * Supports multi-category classification (e.g. flower romantic surprises appear in both Love and Flowers).
+ */
+export function getTemplateCategories(template: Template): string[] {
+  const categories = new Set<string>();
+
+  // 1. Premium: Templates identified as premium by existing configured grade field ("S Premium")
+  if (template.grade === "S Premium") {
+    categories.add("Premium");
+  }
+
+  // 2. Birthday: Birthday cakes, candles, birthday wishes, celebrations, birthday experiences
+  if (
+    template.category === "Birthday" ||
+    template.id.includes("birthday") ||
+    template.id.includes("hbd") ||
+    template.id.includes("cake") ||
+    template.title.toLowerCase().includes("birthday") ||
+    template.title.toLowerCase().includes("cake")
+  ) {
+    categories.add("Birthday");
+  }
+
+  // 3. Proposal: Ask Me Out, proposal puzzles, romantic questions, and Yes/No proposal interactions
+  if (
+    template.category === "Proposal" ||
+    template.id.includes("proposal") ||
+    template.id.includes("unclickable") ||
+    template.id === "ask-me-out" ||
+    template.id === "the-question" ||
+    template.id === "no-way" ||
+    template.id === "puzzle" ||
+    template.title.toLowerCase().includes("proposal") ||
+    template.title.toLowerCase().includes("unclickable") ||
+    template.title.toLowerCase().includes("the question") ||
+    template.title.toLowerCase().includes("ask me out")
+  ) {
+    categories.add("Proposal");
+  }
+
+  // 4. Flowers: Flower bouquets, flower animations, interactive flowers, and flower gardens
+  if (
+    template.category === "Flowers" ||
+    template.id.includes("flower") ||
+    template.id.includes("garden") ||
+    template.id.includes("bloom") ||
+    template.id.includes("bouquet") ||
+    template.id === "timer-tree" ||
+    template.title.toLowerCase().includes("flower") ||
+    template.title.toLowerCase().includes("garden") ||
+    template.title.toLowerCase().includes("bloom") ||
+    template.title.toLowerCase().includes("bouquet")
+  ) {
+    categories.add("Flowers");
+  }
+
+  // 5. Special Moments: Anniversaries, friendship surprises, apologies, thank-you messages, appreciation, photo memories
+  if (
+    template.category === "Anniversary" ||
+    template.category === "Friendship" ||
+    template.category === "Apology" ||
+    template.category === "Appreciation" ||
+    template.category === "Memories" ||
+    template.id === "365-days-of-love" ||
+    template.id === "friendship-day-surprise" ||
+    template.id === "a-sorry-for-you" ||
+    template.id === "a-thank-you" ||
+    template.id === "rotating-photo-memories" ||
+    template.id === "love-memory-photo" ||
+    template.id === "universe" ||
+    template.id === "timer-tree" ||
+    template.id === "100-reasons-i-love-you" ||
+    template.id === "puzzle"
+  ) {
+    categories.add("Special Moments");
+  }
+
+  // 6. Love: Love letters, I Love You messages, reasons to love someone, virtual hugs, romantic stories, relationship surprises
+  if (
+    template.category === "Love" ||
+    template.category === "Story" ||
+    template.id === "universe" ||
+    template.id === "garden-of-love" ||
+    template.id === "red-bloom" ||
+    template.id === "a-bouquet-for-you" ||
+    template.id === "3d-garden" ||
+    template.id === "3d-flower-garden" ||
+    template.id === "365-days-of-love" ||
+    template.id === "puzzle" ||
+    template.id === "timer-tree" ||
+    template.id === "words-to-heart" ||
+    template.description.toLowerCase().includes("love letter") ||
+    template.description.toLowerCase().includes("i love you") ||
+    template.description.toLowerCase().includes("love") ||
+    template.title.toLowerCase().includes("love")
+  ) {
+    categories.add("Love");
+  }
+
+  return Array.from(categories);
+}
+
+/**
+ * Checks whether a template belongs to a given category filter.
+ */
+export function isTemplateInCategory(template: Template, category: string): boolean {
+  if (!category || category === "All") {
+    return true;
+  }
+  if (category.toLowerCase() === "premium") {
+    return template.grade === "S Premium";
+  }
+  const assigned = getTemplateCategories(template);
+  return assigned.some((c) => c.toLowerCase() === category.toLowerCase());
+}
+
+const STOP_WORDS = new Set([
+  "a", "an", "the", "for", "my", "me", "to", "in", "of", "with",
+  "and", "or", "on", "at", "is", "kind", "surprise", "surprises",
+  "looking", "want", "find", "get", "show", "our", "you", "your",
+  "out", "say", "some", "someone", "something"
+]);
+
+/**
+ * Computes a relevance score for a template against a natural language search query.
+ * Returns 0 if the template does not match the search intent.
+ */
+function scoreTemplate(template: Template, query: string): number {
+  const q = query.trim().toLowerCase();
+  if (!q) return 1;
+
+  const rawTokens = q.split(/[\s,+/_-]+/).filter(Boolean);
+  const meaningfulTokens = rawTokens.filter((t) => !STOP_WORDS.has(t));
+  const tokensToUse = meaningfulTokens.length > 0 ? meaningfulTokens : rawTokens;
+
+  // Intent detection
+  const hasBirthdayIntent = /\b(birthday|bday|hbd|cake|candle)\b/.test(q);
+  const hasProposalIntent = /\b(propos|ask.*out|ask\s+her|ask\s+him|marry|unclickable|say.*yes)\b/.test(q);
+  const hasFlowersIntent = /\b(flower|flowers|bouquet|rose|roses|garden|bloom)\b/.test(q);
+  const hasSorryIntent = /\b(sorry|apolog|forgive)\b/.test(q);
+  const hasThankYouIntent = /\b(thank|thanks|thankyou|appreciation|grateful)\b/.test(q);
+  const hasAnniversaryIntent = /\b(anniversary|365|milestone|together|years)\b/.test(q);
+  const hasMemoriesIntent = /\b(photo|photos|memor|album|timeline|pictures)\b/.test(q);
+  const hasGameIntent = /\b(game|quiz|puzzle|interactive\s+game|play)\b/.test(q);
+  const hasPremiumIntent = /\b(premium|bespoke|luxury)\b/.test(q);
+  const hasBoyfriendIntent = /\b(boyfriend|bf|him|guy|man|husband)\b/.test(q);
+  const hasGirlfriendIntent = /\b(girlfriend|gf|her|girl|wife)\b/.test(q);
+  const hasFriendIntent = /\b(friend|friendship|bestie|buddy)\b/.test(q);
+  const hasHugIntent = /\b(hug|hugs|cuddle|warmth)\b/.test(q);
+  const hasCountdownIntent = /\b(countdown|timer|clock)\b/.test(q);
+
+  const tCats = getTemplateCategories(template);
+  const isBirthday = tCats.includes("Birthday");
+  const isProposal = tCats.includes("Proposal");
+  const isFlowers = tCats.includes("Flowers");
+  const isLove = tCats.includes("Love");
+  const isPremium = template.grade === "S Premium";
+
+  // Hard disqualifications when strong intent domain is present:
+  if (hasBirthdayIntent && !isBirthday) return 0;
+  if (hasSorryIntent && template.id !== "a-sorry-for-you") return 0;
+  if (hasThankYouIntent && template.id !== "a-thank-you") return 0;
+  if (hasFlowersIntent && !isFlowers) return 0;
+  if (hasProposalIntent && !isProposal) return 0;
+  if (hasPremiumIntent && !isPremium) return 0;
+  if (hasCountdownIntent && template.id !== "timer-tree") return 0;
+
+  // Memories query ("photo memories")
+  if (hasMemoriesIntent && !["rotating-photo-memories", "love-memory-photo", "universe"].includes(template.id)) {
+    return 0;
+  }
+
+  // Best friend query
+  if (hasFriendIntent && !hasBoyfriendIntent && !hasGirlfriendIntent && template.id !== "friendship-day-surprise") {
+    return 0;
+  }
+
+  let score = 0;
+
+  // Intent score boosts
+  if (hasBirthdayIntent && isBirthday) {
+    score += 50;
+    if (
+      hasGirlfriendIntent &&
+      (template.description.toLowerCase().includes("love") ||
+        template.description.toLowerCase().includes("candle") ||
+        template.id === "birthday-candle" ||
+        template.id === "pink-cake")
+    ) {
+      score += 30;
+    }
+  }
+
+  if (hasSorryIntent && template.id === "a-sorry-for-you") score += 100;
+  if (hasThankYouIntent && template.id === "a-thank-you") score += 100;
+
+  if (hasProposalIntent && isProposal) {
+    score += 50;
+    if (q.includes("ask") && template.id === "ask-me-out") score += 50;
+    if (q.includes("question") && template.id === "the-question") score += 40;
+    if (template.id === "the-question") score += 30;
+    if (template.id === "puzzle") score += 20;
+  }
+
+  if (hasFlowersIntent && isFlowers) {
+    score += 50;
+  }
+
+  if (
+    hasAnniversaryIntent &&
+    (template.id === "365-days-of-love" ||
+      template.id === "universe" ||
+      template.id === "love-memory-photo" ||
+      template.id === "timer-tree")
+  ) {
+    score += 60;
+  }
+
+  if (
+    hasMemoriesIntent &&
+    (template.id === "rotating-photo-memories" ||
+      template.id === "love-memory-photo" ||
+      template.id === "universe")
+  ) {
+    score += 60;
+  }
+
+  if (hasGameIntent) {
+    if (template.id === "love-game") score += 80;
+    else if (template.id === "puzzle") score += 60;
+    else if (template.id.includes("unclickable") || template.id === "words-to-heart") score += 40;
+  }
+
+  if (hasHugIntent && template.id === "virtual-hug") {
+    score += 100;
+  }
+
+  if (hasCountdownIntent && template.id === "timer-tree") {
+    score += 100;
+  }
+
+  if (hasPremiumIntent && isPremium) {
+    score += 50;
+    if (isLove) score += 30;
+  }
+
+  if (hasBoyfriendIntent && !hasBirthdayIntent) {
+    if (
+      [
+        "universe",
+        "vanilla-and-chocolate",
+        "love-game",
+        "50-reasons",
+        "puzzle",
+        "words-to-heart",
+        "heartbeat",
+        "3d-love-book",
+      ].includes(template.id)
+    ) {
+      score += 50;
+    } else if (isLove) {
+      score += 20;
+    }
+  }
+
+  if (hasFriendIntent && template.id === "friendship-day-surprise") {
+    score += 100;
+  }
+
+  // Token matching across fields
+  const titleLower = template.title.toLowerCase();
+  const descLower = template.description.toLowerCase();
+  const keywordsLower = template.searchKeywords.map((k) => k.toLowerCase());
+
+  // Exact phrase match in title or description
+  if (titleLower.includes(q)) score += 60;
+  else if (descLower.includes(q)) score += 30;
+
+  let matchedTokens = 0;
+  for (const token of tokensToUse) {
+    let tokenMatched = false;
+    if (titleLower.includes(token)) {
+      score += 25;
+      tokenMatched = true;
+    }
+    if (keywordsLower.some((k) => k.includes(token))) {
+      score += 15;
+      tokenMatched = true;
+    }
+    if (descLower.includes(token)) {
+      score += 10;
+      tokenMatched = true;
+    }
+    if (tokenMatched) matchedTokens++;
+  }
+
+  if (score === 0 && matchedTokens === 0) return 0;
+  return score;
+}
+
+/**
+ * Filter templates by selected category and natural-language search query.
+ * Preserves the curated default order when query is empty or scores are equal.
  */
 export function filterTemplates(
   templateList: Template[] = templates,
   query: string = "",
   category: string = "All"
 ): Template[] {
-  const trimmedQuery = query.trim().toLowerCase();
+  // 1. Filter by category
+  const inCategory = templateList.filter((template) =>
+    isTemplateInCategory(template, category)
+  );
 
-  return templateList.filter((template) => {
-    // 1. Category check
-    if (category !== "All") {
-      if (category.toLowerCase() === "premium") {
-        // Determine Premium membership from existing configured grade field (S Premium)
-        if (template.grade !== "S Premium") {
-          return false;
-        }
-      } else if (template.category.toLowerCase() !== category.toLowerCase()) {
-        return false;
-      }
-    }
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) {
+    return inCategory;
+  }
 
-    // 2. Query check (if empty, matches all within category)
-    if (!trimmedQuery) {
-      return true;
-    }
+  // 2. Score templates against search query
+  const scored = inCategory
+    .map((template) => ({
+      template,
+      score: scoreTemplate(template, trimmedQuery),
+    }))
+    .filter((item) => item.score > 0);
 
-    const matchesTitle = template.title.toLowerCase().includes(trimmedQuery);
-    const matchesDescription = template.description.toLowerCase().includes(trimmedQuery);
-    const matchesCategory = template.category.toLowerCase().includes(trimmedQuery);
-    const matchesGrade = template.grade.toLowerCase().includes(trimmedQuery);
-    const matchesKeywords = template.searchKeywords.some((keyword) =>
-      keyword.toLowerCase().includes(trimmedQuery)
-    );
+  // Stable sort by score descending; preserves input list order on ties
+  scored.sort((a, b) => b.score - a.score);
 
-    return matchesTitle || matchesDescription || matchesCategory || matchesGrade || matchesKeywords;
-  });
+  return scored.map((item) => item.template);
 }
 
 /**

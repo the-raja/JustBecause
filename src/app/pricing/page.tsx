@@ -9,7 +9,7 @@ import FloatingHearts from "@/components/FloatingHearts";
 export const metadata: Metadata = {
   title: "Pricing & Hosting Plans — Simple & Transparent",
   description:
-    "Explore template grades, 24-hour included live access, hosting extension plans (Weekly, Monthly, Yearly), and bespoke custom website pricing. No hidden fees.",
+    "Explore interactive surprises, 24-hour included live access, hosting extension plans (Weekly, Monthly, Yearly), and bespoke custom website pricing. No hidden fees.",
 };
 
 export default function PricingPage() {
@@ -53,7 +53,7 @@ export default function PricingPage() {
             Choose Your Surprise ❤️
           </h1>
           <p className="mt-4 text-base sm:text-lg text-neutral-600 leading-relaxed">
-            Every template has a designated grade. Its displayed base price includes <strong className="text-neutral-900 font-semibold">24 hours of live hosting</strong>.
+            Every template&apos;s displayed base price includes <strong className="text-neutral-900 font-semibold">24 hours of live hosting</strong>.
             Optional extension plans keep your surprise active as long as you wish.
           </p>
         </div>

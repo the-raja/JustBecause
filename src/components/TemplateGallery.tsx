@@ -54,7 +54,7 @@ export default function TemplateGallery({
   }
 
   // Dynamically compute unique categories from template data (including Premium)
-  const categories = useMemo(() => getCategories(templates), []);
+  const categories = useMemo(() => getCategories(), []);
 
   // Filter templates based on search query and category, then apply sorting
   const displayedTemplates = useMemo(() => {
@@ -254,10 +254,10 @@ export default function TemplateGallery({
               <Heart className="w-7 h-7 fill-rose-500 animate-pulse-gently" />
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-neutral-800">
-              No surprises found just yet. 💌
+              No surprises found just yet 💗
             </h3>
             <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
-              Try a different keyword or explore all our templates.
+              Try another search or clear your filters to explore all surprises.
             </p>
             <div className="mt-6">
               <button
@@ -266,7 +266,7 @@ export default function TemplateGallery({
                 className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold shadow-xs transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 cursor-pointer"
               >
                 <RefreshCw className="w-4 h-4" />
-                <span>CLEAR FILTERS</span>
+                <span>Reset filters</span>
               </button>
             </div>
           </div>
